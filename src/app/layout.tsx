@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/app-sidebar";
 
 const inter = Inter({
-  weight:['400', '500', '600','700','800','900'],
-  subsets:['latin']
+  weight: ['400', '500', '600', '700', '800', '900'],
+  subsets: ['latin']
 })
 
 export const metadata: Metadata = {
@@ -18,7 +20,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${inter.className} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body
+        className="min-h-full flex flex-col">
+        <SidebarProvider>
+          <AppSidebar />
+          <main className="w-full">
+            {children}
+          </main>
+        </SidebarProvider>
+      </body>
     </html>
   );
 }
