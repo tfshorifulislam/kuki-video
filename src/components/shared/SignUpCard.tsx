@@ -50,12 +50,6 @@ export function SignUpCard() {
                         <div className="grid gap-2">
                             <div className="flex items-center">
                                 <Label htmlFor="password">Password</Label>
-                                <Link
-                                    href="/"
-                                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                                >
-                                    Forgot your password?
-                                </Link>
                             </div>
                             <Input
                                 id="password"
@@ -70,10 +64,10 @@ export function SignUpCard() {
                 </form>
             </CardContent>
             <CardFooter className="flex-col gap-2">
-                <Button type="submit" className="w-full">
+                <Button type="submit" className="w-full cursor-pointer">
                     Sign Up
                 </Button>
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full cursor-pointer">
                     Sign Up with Google
                 </Button>
             </CardFooter>

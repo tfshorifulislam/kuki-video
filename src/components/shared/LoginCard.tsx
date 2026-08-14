@@ -21,7 +21,7 @@ export function LoginCard() {
                     Enter your email below to login to your account
                 </CardDescription>
                 <CardAction>
-                    <Link href='/auth/login'>Sign Up</Link>
+                    <Link href='/auth/signup'>Sign Up</Link>
                 </CardAction>
             </CardHeader>
             <CardContent>
@@ -39,12 +39,12 @@ export function LoginCard() {
                         <div className="grid gap-2">
                             <div className="flex items-center">
                                 <Label htmlFor="password">Password</Label>
-                                <a
-                                    href="#"
+                                <Link
+                                    href="/auth/forgot-password"
                                     className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                                 >
                                     Forgot your password?
-                                </a>
+                                </Link>
                             </div>
                             <Input
                             placeholder="Enter your password"
@@ -56,10 +56,10 @@ export function LoginCard() {
                 </form>
             </CardContent>
             <CardFooter className="flex-col gap-2">
-                <Button type="submit" className="w-full">
+                <Button type="submit" className="w-full cursor-pointer">
                     Login
                 </Button>
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full cursor-pointer">
                     Login with Google
                 </Button>
             </CardFooter>
