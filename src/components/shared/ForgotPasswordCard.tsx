@@ -48,7 +48,7 @@ export function ForgotPasswordCard() {
                             <Label htmlFor="email">Email</Label>
                             <Input
                                 id="email"
-                                name="email" // 👈 name যুক্ত না করলে FormData-তে ইমেইল যাবে না
+                                name="email"
                                 type="email"
                                 placeholder="your@mail.com"
                                 required
@@ -56,7 +56,6 @@ export function ForgotPasswordCard() {
                         </div>
                     </div>
 
-                    {/* CardFooter-কে Form-এর ভেতরে নিয়ে আসা হয়েছে */}
                     <CardFooter className="flex-col gap-2 mt-6 px-0 pb-0">
                         <Button 
                             type="submit" 

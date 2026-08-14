@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import prisma from "@/lib/prisma";
 import { Resend } from 'resend';
+import ResetPasswordEmail from "@/components/emails/ResetPasswordEmail";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -13,19 +14,22 @@ export const auth = betterAuth({
     emailAndPassword: {
         enabled: true,
         requireEmailVerification: true,
+        resetPasswordTokenExpiresIn: 60 * 5,
 
         sendResetPassword: async ({ user, url }) => {
             await resend.emails.send({
                 from: 'onboarding@resend.dev',
                 to: user.email,
                 subject: "Reset Your Password",
-                html: `<p>Click <a href="${url}">here</a> to reset your password.</p>`,
+                react: ResetPasswordEmail({ url, userName: user.name }),
             });
         },
 
     },
 
     emailVerification: {
+        expiresIn: 60 * 5,
+
         sendVerificationEmail: async ({ user, url }) => {
             await resend.emails.send({
                 from: 'onboarding@resend.dev',
