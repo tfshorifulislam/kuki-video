@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 import { useFormStatus } from "react-dom";
 
 export function SubmitButton() {
@@ -18,4 +19,21 @@ export function SubmitButton() {
             )}
         </Button>
     );
+}
+
+export function LoginButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button type="submit" disabled={pending} className="w-full cursor-pointer">
+      {pending ? (
+        <div className="flex items-center justify-center gap-2">
+          <Loader2 className="h-4 w-4 animate-spin" />
+          Logging in...
+        </div>
+      ) : (
+        "Login"
+      )}
+    </Button>
+  );
 }
