@@ -19,7 +19,7 @@ import { usePathname } from "next/navigation";
 const menu_items = [
     { title: "Home", url: "/", icon: Home },
     { title: "Videos", url: "/videos", icon: Video },
-     { title: "Post", url: '', icon: PlusCircle },
+    { title: "Post", url: "/share-content", icon: PlusCircle,},
     { title: "Profile", url: "/profile", icon: User },
     { title: "Settings", url: "/settings", icon: Settings },
 ];
@@ -29,8 +29,7 @@ export function AppSidebar() {
 
     return (
         <Sidebar variant="floating">
-
-            <SidebarHeader className="p-4 ">
+            <SidebarHeader className="p-4">
                 <Link href="/" className="flex items-center gap-3 font-semibold text-lg text-sidebar-foreground">
                     <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
                         <PlaySquare className="h-5 w-5" />
@@ -55,10 +54,11 @@ export function AppSidebar() {
                                 return (
                                     <SidebarMenuItem key={item.title}>
                                         <SidebarMenuButton
-
                                             isActive={isActive}
                                             tooltip={item.title}
-                                            className={`group flex items-center gap-4 rounded-xl px-4 py-3 h-auto ease-in-out hover:bg-white/10 active:scale-95 ${isActive ? "font-bold text-white" : "font-normal text-zinc-400 hover:text-black"
+                                            className={`group flex items-center gap-4 rounded-xl px-4 py-3 h-auto ease-in-out hover:bg-white/10 active:scale-95 ${isActive
+                                                ? "font-bold text-white bg-white/10"
+                                                : "font-normal text-zinc-400 hover:text-black"
                                                 }`}
                                         >
                                             <Link href={item.url} className="flex items-center gap-4 w-full">
@@ -78,7 +78,6 @@ export function AppSidebar() {
                     </SidebarGroupContent>
                 </SidebarGroup>
             </SidebarContent>
-
 
             <SidebarFooter className="p-2 border-t border-sidebar-border/50">
                 <SidebarMenu>
