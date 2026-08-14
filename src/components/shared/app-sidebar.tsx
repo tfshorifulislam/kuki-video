@@ -12,13 +12,14 @@ import {
     SidebarGroupLabel,
     SidebarGroupContent,
 } from "@/components/ui/sidebar";
-import { Home, Video, Settings, User, PlaySquare, LogOut } from "lucide-react";
+import { Home, Video, Settings, User, PlaySquare, LogOut, PlusCircle } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const menu_items = [
     { title: "Home", url: "/", icon: Home },
     { title: "Videos", url: "/videos", icon: Video },
+     { title: "Post", url: '', icon: PlusCircle },
     { title: "Profile", url: "/profile", icon: User },
     { title: "Settings", url: "/settings", icon: Settings },
 ];
@@ -27,9 +28,9 @@ export function AppSidebar() {
     const pathname = usePathname();
 
     return (
-        <Sidebar variant="floating" collapsible="icon">
+        <Sidebar variant="floating">
 
-            <SidebarHeader className="p-4 border-b border-sidebar-border/50">
+            <SidebarHeader className="p-4 ">
                 <Link href="/" className="flex items-center gap-3 font-semibold text-lg text-sidebar-foreground">
                     <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
                         <PlaySquare className="h-5 w-5" />

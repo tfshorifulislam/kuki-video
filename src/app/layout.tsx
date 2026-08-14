@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
+import { AppSidebar } from "@/components/shared/app-sidebar";
+import BottomMenuBar from "@/components/shared/BottomMenuBar";
 
 const inter = Inter({
   weight: ['400', '500', '600', '700', '800', '900'],
@@ -27,6 +28,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <main className="w-full">
             {children}
           </main>
+          <BottomMenuBar />
         </SidebarProvider>
       </body>
     </html>
