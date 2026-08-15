@@ -11,3 +11,4 @@ export interface PostCardProps {
         image?: string | null;
     };
 }
+
