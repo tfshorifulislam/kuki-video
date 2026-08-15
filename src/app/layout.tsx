@@ -4,6 +4,7 @@ import "./globals.css";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/shared/app-sidebar";
 import BottomMenuBar from "@/components/shared/BottomMenuBar";
+  import { ToastContainer } from 'react-toastify';
 
 const inter = Inter({
   weight: ['400', '500', '600', '700', '800', '900'],
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           </main>
           <BottomMenuBar />
         </SidebarProvider>
+         <ToastContainer />
       </body>
     </html>
   );

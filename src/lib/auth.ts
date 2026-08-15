@@ -3,6 +3,7 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import prisma from "@/lib/prisma";
 import { Resend } from 'resend';
 import ResetPasswordEmail from "@/components/emails/ResetPasswordEmail";
+import { nextCookies } from "better-auth/next-js";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -40,6 +41,7 @@ export const auth = betterAuth({
         }
     },
 
-    trustedOrigins: ["http://localhost:3001"],
+    trustedOrigins: ["http://localhost:3000"],
 
+     plugins: [nextCookies()]
 });
