@@ -1,6 +1,9 @@
 
 export interface CreatePostPayload {
   title?: string;
-  mediaUrls: string[];
+  media: {
+    url: string;
+    type: "image" | "video";
+  }[];
   userId: string;
 }
