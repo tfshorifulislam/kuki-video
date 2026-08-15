@@ -129,10 +129,8 @@ const PostMedia = ({ mediaList, postTitle }: PostMediaProps) => {
 
     if (!mediaList || mediaList.length === 0) return null;
 
-    // const isVideo = currentMedia?.type === "video";
-
     return (
-        <div className="w-full relative group bg-black flex items-center justify-center">
+        <div className="w-full relative group bg-black rounded-2xl overflow-hidden my-3 border border-gray-200 flex items-center justify-center">
             <div
                 ref={containerRef}
                 onScroll={handleScroll}
@@ -148,7 +146,7 @@ const PostMedia = ({ mediaList, postTitle }: PostMediaProps) => {
                             className="w-full shrink-0 snap-center relative flex items-center justify-center bg-black"
                         >
                             {isMediaVideo ? (
-                                <div className="w-full aspect-[9/16] max-h-[750px] relative flex items-center justify-center bg-black">
+                                <div className="w-full aspect-[9/16] max-h-[600px] relative flex items-center justify-center bg-black">
                                     <video
                                         ref={index === currentIndex ? videoRef : null}
                                         src={media.url}
@@ -165,41 +163,32 @@ const PostMedia = ({ mediaList, postTitle }: PostMediaProps) => {
                                     {!isPlaying && index === currentIndex && (
                                         <div 
                                             onClick={togglePlayPause}
-                                            className="absolute inset-0 flex items-center justify-center bg-black/30 cursor-pointer z-10"
+                                            className="absolute inset-0 flex items-center justify-center bg-black/40 cursor-pointer z-10"
                                         >
-                                            <div className="bg-black/60 p-3.5 rounded-full text-white backdrop-blur-sm">
-                                                <Play size={28} />
+                                            <div className="bg-black/70 text-white p-3 rounded-full backdrop-blur-sm">
+                                                <Play size={24} className="fill-white" />
                                             </div>
                                         </div>
                                     )}
 
                                     {/* Video Controls Bar */}
-                                    <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+                                    <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 to-transparent flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-20">
                                         <input
                                             type="range"
                                             min="0"
                                             max="100"
                                             value={progress || 0}
                                             onChange={handleSeek}
-                                            className="w-full h-1 bg-white/30 rounded-lg appearance-none cursor-pointer accent-white hover:h-1.5 transition-all"
+                                            className="w-full h-1 bg-white/30 rounded-lg appearance-none cursor-pointer accent-white"
                                         />
-
                                         <div className="flex items-center justify-between">
                                             <div className="flex items-center gap-3">
-                                                <button
-                                                    onClick={togglePlayPause}
-                                                    className="text-white hover:text-gray-300 transition"
-                                                >
+                                                <button onClick={togglePlayPause} className="text-white hover:text-gray-300">
                                                     {isPlaying ? <Pause size={18} /> : <Play size={18} />}
                                                 </button>
-
-                                                <button
-                                                    onClick={toggleMute}
-                                                    className="text-white hover:text-gray-300 transition"
-                                                >
+                                                <button onClick={toggleMute} className="text-white hover:text-gray-300">
                                                     {isMuted || volume === 0 ? <VolumeX size={18} /> : <Volume2 size={18} />}
                                                 </button>
-
                                                 <input
                                                     type="range"
                                                     min="0"
@@ -214,7 +203,7 @@ const PostMedia = ({ mediaList, postTitle }: PostMediaProps) => {
                                     </div>
                                 </div>
                             ) : (
-                                <div className="w-full aspect-[4/5] max-h-[750px] relative flex items-center justify-center bg-black">
+                                <div className="w-full aspect-[4/5] max-h-[600px] relative flex items-center justify-center bg-black">
                                     <Image
                                         src={media.url}
                                         alt={postTitle || "Post media"}
@@ -230,29 +219,28 @@ const PostMedia = ({ mediaList, postTitle }: PostMediaProps) => {
                 })}
             </div>
 
-            {/* Previous Navigation Button */}
+            {/* Navigation Buttons */}
             {currentIndex > 0 && (
                 <button
                     onClick={() => scrollToMedia(currentIndex - 1)}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/80 text-white p-1.5 rounded-full transition shadow-md z-30"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/70 text-white p-1.5 rounded-full hover:bg-black transition z-30"
                 >
-                    <ChevronLeft size={20} />
+                    <ChevronLeft size={18} />
                 </button>
             )}
 
-            {/* Next Navigation Button */}
             {currentIndex < mediaList.length - 1 && (
                 <button
                     onClick={() => scrollToMedia(currentIndex + 1)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/80 text-white p-1.5 rounded-full transition shadow-md z-30"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/70 text-white p-1.5 rounded-full hover:bg-black transition z-30"
                 >
-                    <ChevronRight size={20} />
+                    <ChevronRight size={18} />
                 </button>
             )}
 
-            {/* Media Pagination Dots */}
+            {/* Pagination Dots */}
             {mediaList.length > 1 && (
-                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 bg-black/40 px-2.5 py-1 rounded-full backdrop-blur-sm z-30">
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 bg-black/50 px-2.5 py-1 rounded-full backdrop-blur-sm z-30">
                     {mediaList.map((_, index) => (
                         <button
                             key={index}

@@ -35,7 +35,7 @@ export default async function HomePage() {
 
   return (
     <main className="min-h-screen py-6">
-      <div className="w-full max-w-[600px] mx-auto space-y-6">
+      <div className="w-full max-w-150 mx-auto space-y-6">
         {res.data.map((user) =>
           user.posts.map((post) => (
             <PostCard
