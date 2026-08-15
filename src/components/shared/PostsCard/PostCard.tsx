@@ -1,147 +1,142 @@
 import {
-  Heart,
-  MessageCircle,
-  Send,
-  Bookmark,
-  MoreHorizontal,
+    Heart,
+    MessageCircle,
+    Send,
+    Bookmark,
+    MoreHorizontal,
 } from "lucide-react";
+import Image from "next/image";
 
 const PostCard = ({ postItem, user }: any) => {
-  const media = postItem?.media?.[0];
+    const media = postItem?.media?.[0];
 
-  return (
-    <article className="w-full bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
-      
-      {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3">
-        <div className="flex items-center gap-3">
-          
-          {/* Avatar */}
-          <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 p-[2px]">
-            <div className="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">
-              {user?.image ? (
-                <img
-                  src={user.image}
-                  alt={user.name}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <span className="font-semibold text-gray-700">
-                  {user?.name?.charAt(0)?.toUpperCase() || "U"}
-                </span>
-              )}
+    return (
+        <article className="w-full bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+
+            {/* Header */}
+            <div className="flex items-center justify-between px-4 py-3">
+                <div className="flex items-center gap-3">
+
+                    {/* Avatar - Black & White Theme */}
+                    <div className="w-10 h-10 rounded-full border border-gray-300 p-[1px] bg-gray-50 flex items-center justify-center overflow-hidden">
+                        {user?.image ? (
+                            <img
+                                src={user.image}
+                                alt={user.name}
+                                className="w-full h-full object-cover grayscale"
+                            />
+                        ) : (
+                            <span className="font-semibold text-gray-800 text-sm">
+                                {user?.name?.charAt(0)?.toUpperCase() || "U"}
+                            </span>
+                        )}
+                    </div>
+
+                    {/* User Name & Date */}
+                    <div>
+                        <p className="text-sm font-semibold text-gray-900">
+                            {user?.name || "User"}
+                        </p>
+                        <p className="text-xs text-gray-500">
+                            {new Date(postItem.createdAt).toLocaleDateString()}
+                        </p>
+                    </div>
+                </div>
+
+                <button className="p-2 rounded-full hover:bg-gray-100 text-gray-700 transition">
+                    <MoreHorizontal size={21} />
+                </button>
             </div>
-          </div>
 
-          {/* User */}
-          <div>
-            <p className="text-sm font-semibold text-gray-900">
-              {user?.name || "User"}
-            </p>
+            {/* Media (Image or Auto-playing Video) */}
+            {media && (
+                <div className="w-full bg-black aspect-square flex items-center justify-center overflow-hidden relative">
+                    {media.type === "video" ? (
+                        <video
+                            src={media.url}
+                            controls
+                            playsInline
+                            preload="metadata"
+                            className="w-full h-full object-contain"
+                        />
+                    ) : media.type === "image" ? (
+                        <div className="w-full h-full relative">
+                            <img
+                                src={media.url}
+                                alt={postItem.title || "Post"}
+                                className="w-full h-full object-cover"
+                            />
+                        </div>
+                    ) : null}
+                </div>
+            )}
 
-            <p className="text-xs text-gray-500">
-              {new Date(postItem.createdAt).toLocaleDateString()}
-            </p>
-          </div>
-        </div>
+            {/* Content Section */}
+            <div className="px-4 pt-3 pb-4">
 
-        <button className="p-2 rounded-full hover:bg-gray-100">
-          <MoreHorizontal size={21} />
-        </button>
-      </div>
+                {/* Action Buttons */}
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4 text-gray-800">
+                        <button className="hover:text-black transition">
+                            <Heart size={25} />
+                        </button>
 
-      {/* Media */}
-      {media && (
-        <div className="w-full bg-black aspect-square flex items-center justify-center overflow-hidden">
-          
-          {media.type === "video" ? (
-            <video
-              src={media.url}
-              controls
-              playsInline
-              preload="metadata"
-              className="w-full h-full object-contain"
-            />
-          ) : media.type === "image" ? (
-            <img
-              src={media.url}
-              alt={postItem.title || "Post"}
-              className="w-full h-full object-cover"
-            />
-          ) : null}
+                        <button className="hover:text-black transition">
+                            <MessageCircle size={25} />
+                        </button>
 
-        </div>
-      )}
+                        <button className="hover:text-black transition">
+                            <Send size={25} />
+                        </button>
+                    </div>
 
-      {/* Content */}
-      <div className="px-4 pt-3 pb-4">
+                    <button className="text-gray-800 hover:text-black transition">
+                        <Bookmark size={25} />
+                    </button>
+                </div>
 
-        {/* Actions */}
-        <div className="flex items-center justify-between">
-          
-          <div className="flex items-center gap-4">
-            <button className="hover:text-red-500 transition">
-              <Heart size={25} />
-            </button>
+                {/* Likes */}
+                <p className="mt-3 text-sm font-semibold text-gray-900">
+                    0 likes
+                </p>
 
-            <button className="hover:text-gray-500 transition">
-              <MessageCircle size={25} />
-            </button>
+                {/* Caption */}
+                {postItem?.title && (
+                    <p className="mt-2 text-sm text-gray-900">
+                        <span className="font-semibold mr-2">
+                            {user?.name}
+                        </span>
+                        {postItem.title}
+                    </p>
+                )}
 
-            <button className="hover:text-gray-500 transition">
-              <Send size={25} />
-            </button>
-          </div>
+                {/* Description */}
+                {postItem?.description && (
+                    <p className="mt-1 text-sm text-gray-700">
+                        {postItem.description}
+                    </p>
+                )}
 
-          <button className="hover:text-gray-500 transition">
-            <Bookmark size={25} />
-          </button>
+                {/* Comments */}
+                <button className="mt-2 text-sm text-gray-500 hover:text-gray-800 transition">
+                    View all comments
+                </button>
 
-        </div>
+                {/* Formatted Date */}
+                <p className="mt-2 text-[10px] uppercase text-gray-400 tracking-wider">
+                    {new Date(postItem.createdAt).toLocaleDateString(
+                        undefined,
+                        {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                        }
+                    )}
+                </p>
 
-        {/* Likes */}
-        <p className="mt-3 text-sm font-semibold">
-          0 likes
-        </p>
-
-        {/* Caption */}
-        {postItem?.title && (
-          <p className="mt-2 text-sm">
-            <span className="font-semibold mr-2">
-              {user?.name}
-            </span>
-
-            {postItem.title}
-          </p>
-        )}
-
-        {/* Description */}
-        {postItem?.description && (
-          <p className="mt-1 text-sm text-gray-700">
-            {postItem.description}
-          </p>
-        )}
-
-        {/* Comments */}
-        <button className="mt-2 text-sm text-gray-500">
-          View all comments
-        </button>
-
-        {/* Date */}
-        <p className="mt-2 text-[10px] uppercase text-gray-400">
-          {new Date(postItem.createdAt).toLocaleDateString(
-            undefined,
-            {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            }
-          )}
-        </p>
-
-      </div>
-    </article>
-  );
+            </div>
+        </article>
+    );
 };
 
 export default PostCard;
