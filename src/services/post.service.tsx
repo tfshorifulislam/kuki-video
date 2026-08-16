@@ -1,6 +1,7 @@
 import { CreatePostPayload } from "@/types/post";
 
 const API_URL = process.env.NEXT_PUBLIC_URL
+
 export const createPostService = async (postData: CreatePostPayload) => {
     try {
         const response = await fetch(`${API_URL}/api/posts/create`, {

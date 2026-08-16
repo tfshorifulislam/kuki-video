@@ -3,8 +3,8 @@
 const baseUrl = process.env.NEXT_PUBLIC_URL;
 
 export const getAllPosts = async () => {
-    const res = await fetch(`${baseUrl}/api/users/get-all-users`, {
-        cache: "no-store" 
+    const res = await fetch(`${baseUrl}/api/users/get-all-posts`, {
+        cache: "no-store"
     });
 
     const result = await res.json();
