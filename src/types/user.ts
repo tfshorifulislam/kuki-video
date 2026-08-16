@@ -1,4 +1,3 @@
-import { Post } from "./post";
 
 export interface User {
     id: string;
@@ -7,5 +6,4 @@ export interface User {
     emailVerified: boolean;
     image: string | null;
     createdAt: string;
-    posts: Post[];
 }

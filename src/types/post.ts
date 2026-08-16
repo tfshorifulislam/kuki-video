@@ -7,7 +7,15 @@ export interface Post {
     description: string | null;
     media: Media[];
     createdAt: string;
+    userId: string;
+    user: User;
 }
+
+
+export interface PostsCardProps {
+    post: Post;
+}
+
 
 export interface CreatePostPayload {
     title?: string;
@@ -15,13 +23,3 @@ export interface CreatePostPayload {
     userId: string;
 }
 
-export interface PostContentProps {
-    postItem: Post;
-    user?: User;
-}
-
-
-export interface PostCardProps {
-    postItem: Post;
-    user: User;
-}
