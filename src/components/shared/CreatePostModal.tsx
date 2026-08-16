@@ -1,4 +1,3 @@
-import { CreatePostModalProps } from "@/interfaces/mediaFile.interface";
 import {
     ImagePlus,
     X,
@@ -6,6 +5,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { Button } from "../ui/button";
+import { CreatePostModalProps } from "@/types/modal";
 
 const CreatePostModal = ({
     user,

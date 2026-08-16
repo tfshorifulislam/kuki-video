@@ -2,12 +2,12 @@
 
 import React, { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { MediaFile } from "@/interfaces/mediaFile.interface";
-import { createPostService } from "@/lib/services/post.service";
-import { uploadToCloudinary } from "@/lib/cloudinaryUploadHelper/uploadToCloudinary";
+import { createPostService } from "@/services/post.service";
+import { uploadToCloudinary } from "@/services/uploadToCloudinary";
 import { useSession } from "@/lib/auth-client";
 import { toast } from "react-toastify";
 import CreatePostModal from "@/components/shared/CreatePostModal";
+import { MediaFile } from "@/types/media";
 
 export default function ShareContentPage() {
 
