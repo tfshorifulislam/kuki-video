@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import {
     Heart,
     MessageCircle,
@@ -19,13 +18,10 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "../ui/carousel";
 import PostMedia from "./PostMedia";
 
 const PostsCard = ({ post }: PostsCardProps) => {
     const {
-        id,
         createdAt,
         title,
         description,
@@ -33,14 +29,12 @@ const PostsCard = ({ post }: PostsCardProps) => {
         user,
     } = post;
 
-    const firstMedia = media?.[0];
-
     const userInitial =
         user?.name?.charAt(0)?.toUpperCase() || "U";
 
     return (
         <Card
-            className="w-full max-w-155 mx-auto overflow-hidden rounded-none sm:rounded-2xl border-x-0 sm:border border-gray-200 bg-white shadow-none transition-colors hover:bg-gray-50/30"
+            className="w-full max-w-155 mx-auto overflow-hidden rounded-lg sm:rounded-2xl border-x-0 sm:border border-gray-200 bg-white shadow-none transition-colors hover:bg-gray-50/30"
         >
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-3">
@@ -151,15 +145,6 @@ const PostsCard = ({ post }: PostsCardProps) => {
                 >
                     <Bookmark className="h-5.25 w-5.25" />
                 </Button>
-            </div>
-
-            <Separator />
-
-            {/* Footer */}
-            <div className="px-4 py-3">
-                <p className="text-xs text-gray-400">
-                    Post #{id}
-                </p>
             </div>
         </Card>
     );

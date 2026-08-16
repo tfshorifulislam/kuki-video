@@ -9,7 +9,7 @@ const HomePage = async () => {
   // console.log(posts)
 
   return (
-    <div>
+    <div className="space-y-3 sm:space-y-4 lg:space-y-5 w-11/12 mx-auto md:w-full">
       {
         posts.map(post =>
           <PostsCard

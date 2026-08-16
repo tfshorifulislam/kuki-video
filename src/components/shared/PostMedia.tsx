@@ -65,8 +65,7 @@ const PostMedia = ({ media, title }: PostMediaProps) => {
                                 ) : (
                                     <Image
                                         src={item.url}
-                                        alt={
-                                            title
+                                        alt={title
                                                 ? `${title} - ${index + 1}`
                                                 : `Post media ${index + 1}`
                                         }
@@ -81,11 +80,11 @@ const PostMedia = ({ media, title }: PostMediaProps) => {
                 </CarouselContent>
 
                 {media.length > 1 && (
-                    <>
+                    <div className="hidden md:block">
                         <CarouselPrevious className="left-3 h-9 w-9 border-0 bg-black/50 text-white shadow-none hover:bg-black/70 hover:text-white" />
 
                         <CarouselNext className="right-3 h-9 w-9 border-0 bg-black/50 text-white shadow-none hover:bg-black/70 hover:text-white" />
-                    </>
+                    </div>
                 )}
             </Carousel>
 
