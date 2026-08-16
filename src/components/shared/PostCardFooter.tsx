@@ -24,8 +24,8 @@ const PostCardFooter = ({
     onSave,
 }: PostCardFooterProps) => {
     return (
-        <div className="px-4 py-2.5 border-t border-dashed border-black bg-white text-xs text-black">
-            {/* MySpace স্টাইল টেক্সট ও লিংক, তবে বাটনগুলো ব্যাকগ্রাউন্ডযুক্ত */}
+        <div className="px-4 py-2.5 border-t border-gray-100 bg-white text-xs text-black">
+      
             <div className="flex flex-wrap items-center justify-between gap-2 font-medium">
                 
                 {/* Left side actions */}

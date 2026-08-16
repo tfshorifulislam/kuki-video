@@ -15,7 +15,7 @@ const PostHeader = ({ user, createdAt }: PostHeaderProps) => {
 
     return (
         <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-gray-100 text-xs">
-            {/* মডার্ন পোস্ট হেডার */}
+            
             <div className="flex min-w-0 items-center gap-3">
                 <Avatar className="h-9 w-9 rounded-full shrink-0 ring-1 ring-gray-200">
                     <AvatarImage
