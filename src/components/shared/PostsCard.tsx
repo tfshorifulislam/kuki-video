@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import PostMedia from "./PostMedia";
 import PostHeader from "./PostCardHeader";
+import PostCardFooter from "./PostCardFooter";
 
 const PostsCard = ({ post }: PostsCardProps) => {
     const {
@@ -50,45 +51,7 @@ const PostsCard = ({ post }: PostsCardProps) => {
             />
 
             {/* Actions */}
-            <div className="flex items-center justify-between px-3 py-2">
-                <div className="flex items-center">
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-10 w-10 rounded-full hover:bg-red-50 hover:text-red-500"
-                        aria-label="Like post"
-                    >
-                        <Heart className="h-5.25 w-5.25" />
-                    </Button>
-
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-10 w-10 rounded-full hover:bg-blue-50 hover:text-blue-500"
-                        aria-label="Comment on post"
-                    >
-                        <MessageCircle className="h-5.25 w-5.25" />
-                    </Button>
-
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-10 w-10 rounded-full hover:bg-blue-50 hover:text-blue-500"
-                        aria-label="Share post"
-                    >
-                        <Send className="h-5.25 w-5.25" />
-                    </Button>
-                </div>
-
-                <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-10 w-10 rounded-full hover:bg-gray-100"
-                    aria-label="Save post"
-                >
-                    <Bookmark className="h-5.25 w-5.25" />
-                </Button>
-            </div>
+            <PostCardFooter />
         </Card>
     );
 };
