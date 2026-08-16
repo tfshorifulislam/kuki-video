@@ -1,26 +1,25 @@
-"use client";
-
-import {
-    Heart,
-    MessageCircle,
-    Send,
-    Bookmark,
-} from "lucide-react";
 import { PostsCardProps } from "@/types/post";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import PostMedia from "./PostMedia";
 import PostHeader from "./PostCardHeader";
 import PostCardFooter from "./PostCardFooter";
+import { LikeStatus } from "@/services/getAllLikeAtOnePost";
 
-const PostsCard = ({ post }: PostsCardProps) => {
+const PostsCard = async ({ post }: PostsCardProps) => {
     const {
         createdAt,
         title,
         description,
         media,
         user,
+        userId,
+        id
     } = post;
+    console.log(post)
+
+    const getLikes = await LikeStatus(id, userId)
+    console.log("like count",getLikes)
+
 
     return (
         <Card className="w-full max-w-155 mx-auto overflow-hidden rounded-lg sm:rounded-2xl border-x-0 sm:border border-gray-200 bg-white shadow-none transition-colors hover:bg-gray-50/30">
@@ -51,7 +50,9 @@ const PostsCard = ({ post }: PostsCardProps) => {
             />
 
             {/* Actions */}
-            <PostCardFooter />
+            <PostCardFooter
+                likesCount={getLikes.likesCount}
+            />
         </Card>
     );
 };
