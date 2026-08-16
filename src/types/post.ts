@@ -16,6 +16,10 @@ export interface PostsCardProps {
     post: Post;
 }
 
+export interface PostMediaProps {
+    media: Post["media"];
+    title?: string;
+}
 
 export interface CreatePostPayload {
     title?: string;
