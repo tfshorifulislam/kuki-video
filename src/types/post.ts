@@ -21,6 +21,16 @@ export interface PostMediaProps {
     title?: string;
 }
 
+export interface PostHeaderProps {
+    user?: {
+        name?: string | null;
+        image?: string | null;
+        email?: string | null;
+        emailVerified?: boolean | null;
+    };
+    createdAt: string | Date;
+}
+
 export interface CreatePostPayload {
     title?: string;
     media: Media[];

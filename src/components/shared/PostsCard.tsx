@@ -5,20 +5,12 @@ import {
     MessageCircle,
     Send,
     Bookmark,
-    MoreHorizontal,
 } from "lucide-react";
-import { formatDistanceToNow } from "date-fns";
 import { PostsCardProps } from "@/types/post";
-
-import {
-    Avatar,
-    AvatarFallback,
-    AvatarImage,
-} from "@/components/ui/avatar";
-
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import PostMedia from "./PostMedia";
+import PostHeader from "./PostCardHeader";
 
 const PostsCard = ({ post }: PostsCardProps) => {
     const {
@@ -29,61 +21,12 @@ const PostsCard = ({ post }: PostsCardProps) => {
         user,
     } = post;
 
-    const userInitial =
-        user?.name?.charAt(0)?.toUpperCase() || "U";
-
     return (
-        <Card
-            className="w-full max-w-155 mx-auto overflow-hidden rounded-lg sm:rounded-2xl border-x-0 sm:border border-gray-200 bg-white shadow-none transition-colors hover:bg-gray-50/30"
-        >
-            {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3">
-                <div className="flex min-w-0 items-center gap-3">
-                    <Avatar className="h-10 w-10 shrink-0">
-                        <AvatarImage
-                            src={user?.image || undefined}
-                            alt={user?.name || "User"}
-                        />
-
-                        <AvatarFallback className="bg-gray-100 text-sm font-semibold text-gray-700">
-                            {userInitial}
-                        </AvatarFallback>
-                    </Avatar>
-
-                    <div className="min-w-0">
-                        <div className="flex items-center gap-1">
-                            <h3 className="truncate text-sm font-semibold text-gray-900">
-                                {user?.name}
-                            </h3>
-
-                            {user?.emailVerified && (
-                                <span className="flex h-4 w-4 items-center justify-center rounded-full bg-blue-500 text-[9px] font-bold text-white">
-                                    ✓
-                                </span>
-                            )}
-                        </div>
-
-                        <div className="flex items-center gap-1 text-xs text-gray-500">
-                            <span>@{user?.email?.split("@")[0]}</span>
-                            <span>·</span>
-                            <time dateTime={createdAt}>
-                                {formatDistanceToNow(new Date(createdAt), {
-                                    addSuffix: true,
-                                })}
-                            </time>
-                        </div>
-                    </div>
-                </div>
-
-                <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8 rounded-full text-gray-500 hover:bg-gray-100"
-                    aria-label="More options"
-                >
-                    <MoreHorizontal className="h-5 w-5" />
-                </Button>
-            </div>
+        <Card className="w-full max-w-155 mx-auto overflow-hidden rounded-lg sm:rounded-2xl border-x-0 sm:border border-gray-200 bg-white shadow-none transition-colors hover:bg-gray-50/30">
+            {/* Header Component */}
+            <PostHeader
+                user={user}
+                createdAt={createdAt} />
 
             {/* Content */}
             <div className="px-4 pb-3">

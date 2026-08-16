@@ -6,7 +6,7 @@ const HomePage = async () => {
 
   const getPost = await getAllPosts()
   const posts:Post[] = await getPost?.data ?? [];
-  // console.log(posts)
+  console.log(posts)
 
   return (
     <div className="space-y-3 sm:space-y-4 lg:space-y-5 w-11/12 mx-auto md:w-full">
