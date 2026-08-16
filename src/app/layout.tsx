@@ -4,7 +4,8 @@ import "./globals.css";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/shared/app-sidebar";
 import BottomMenuBar from "@/components/shared/BottomMenuBar";
-  import { ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
+import { VideoVolumeProvider } from "@/components/shared/VideoVolumeProvider";
 
 const inter = Inter({
   weight: ['400', '500', '600', '700', '800', '900'],
@@ -22,16 +23,19 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${inter.className} h-full antialiased`}
     >
-      <body
-        className="min-h-full flex flex-col">
-        <SidebarProvider>
-          <AppSidebar />
-          <main className="w-full">
-            {children}
-          </main>
-          <BottomMenuBar />
-        </SidebarProvider>
-         <ToastContainer />
+      <body className="min-h-full flex flex-col">
+        <VideoVolumeProvider>
+
+          <SidebarProvider>
+            <AppSidebar />
+            <main className="w-full">
+              {children}
+            </main>
+            <BottomMenuBar />
+          </SidebarProvider>
+          <ToastContainer />
+
+        </VideoVolumeProvider>
       </body>
     </html>
   );

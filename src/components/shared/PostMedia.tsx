@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, } from "react";
 import Image from "next/image";
 import type { CarouselApi } from "@/components/ui/carousel";
-
 import {
     Carousel,
     CarouselContent,
@@ -12,11 +11,15 @@ import {
     CarouselPrevious,
 } from "@/components/ui/carousel";
 import { PostMediaProps } from "@/types/post";
+import { useVideoVolume } from "./VideoVolumeProvider"; 
+import VideoPlayer from "./VideoPlayer";
 
 
 const PostMedia = ({ media, title }: PostMediaProps) => {
     const [carouselApi, setCarouselApi] = useState<CarouselApi>();
     const [currentSlide, setCurrentSlide] = useState(0);
+    const videoRef = useRef<HTMLVideoElement>(null);
+    const { volume } = useVideoVolume();
 
     useEffect(() => {
         if (!carouselApi) return;
@@ -26,7 +29,6 @@ const PostMedia = ({ media, title }: PostMediaProps) => {
         };
 
         updateSlide();
-
         carouselApi.on("select", updateSlide);
 
         return () => {
@@ -55,17 +57,16 @@ const PostMedia = ({ media, title }: PostMediaProps) => {
                         >
                             <div className="relative aspect-square w-full">
                                 {item.type === "video" ? (
-                                    <video
-                                        src={item.url}
-                                        controls
-                                        playsInline
-                                        preload="metadata"
-                                        className="h-full w-full object-contain"
+                                    <VideoPlayer
+                                        ref={videoRef}
+                                        url={item.url}
+                                        volume={volume}
                                     />
                                 ) : (
                                     <Image
                                         src={item.url}
-                                        alt={title
+                                        alt={
+                                            title
                                                 ? `${title} - ${index + 1}`
                                                 : `Post media ${index + 1}`
                                         }
@@ -80,9 +81,8 @@ const PostMedia = ({ media, title }: PostMediaProps) => {
                 </CarouselContent>
 
                 {media.length > 1 && (
-                    <div className="hidden md:block">
+                    <div className="hidden md:flex">
                         <CarouselPrevious className="left-3 h-9 w-9 border-0 bg-black/50 text-white shadow-none hover:bg-black/70 hover:text-white" />
-
                         <CarouselNext className="right-3 h-9 w-9 border-0 bg-black/50 text-white shadow-none hover:bg-black/70 hover:text-white" />
                     </div>
                 )}
@@ -104,10 +104,11 @@ const PostMedia = ({ media, title }: PostMediaProps) => {
                                 carouselApi?.scrollTo(index)
                             }
                             aria-label={`Go to media ${index + 1}`}
-                            className={`h-1.5 rounded-full transition-all duration-200 ${currentSlide === index
-                                ? "w-4 bg-white"
-                                : "w-1.5 bg-white/50 hover:bg-white/80"
-                                }`}
+                            className={`h-1.5 rounded-full transition-all duration-200 ${
+                                currentSlide === index
+                                    ? "w-4 bg-white"
+                                    : "w-1.5 bg-white/50 hover:bg-white/80"
+                            }`}
                         />
                     ))}
                 </div>
