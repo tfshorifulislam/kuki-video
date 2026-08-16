@@ -1,16 +1,7 @@
 
+import { PostCardFooterProps } from "@/types/post";
 import { Bookmark, Heart, MessageCircle, Share2 } from "lucide-react";
-
-interface PostCardFooterProps {
-    likesCount?: number;
-    commentsCount?: number;
-    isLiked?: boolean;
-    isSaved?: boolean;
-    onLike?: () => void;
-    onComment?: () => void;
-    onShare?: () => void;
-    onSave?: () => void;
-}
+import CommentDrawer from "./CommentBox";
 
 const PostCardFooter = ({
     likesCount,
@@ -18,10 +9,12 @@ const PostCardFooter = ({
     isLiked = false,
     isSaved = false,
     onLike,
-    onComment,
     onShare,
     onSave,
+    postId
 }: PostCardFooterProps) => {
+
+
     return (
         <div className="px-4 py-2.5 border-t border-gray-100 bg-white text-xs text-black">
 
@@ -30,14 +23,12 @@ const PostCardFooter = ({
                 {/* Left side actions */}
                 <div className="flex items-center gap-2">
                     {/* Comment Link */}
-                    <button
-                        type="button"
-                        onClick={onComment}
-                        className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
-                    >
-                        <MessageCircle className="h-3.5 w-3.5" />
-                        <span>Comments ({commentsCount})</span>
-                    </button>
+                    <div className="px-4 py-2">
+                        <div>
+                            
+                            <CommentDrawer postId={postId} commentsCount={commentsCount} />
+                        </div>
+                    </div>
 
                     <span className="text-gray-300">|</span>
 

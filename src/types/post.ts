@@ -31,6 +31,19 @@ export interface PostHeaderProps {
     createdAt: string | Date;
 }
 
+
+export interface PostCardFooterProps {
+    likesCount?: number;
+    commentsCount?: number;
+    isLiked?: boolean;
+    isSaved?: boolean;
+    onLike?: () => void;
+    onComment?: () => void;
+    onShare?: () => void;
+    onSave?: () => void;
+}
+
+
 export interface CreatePostPayload {
     title?: string;
     media: Media[];
