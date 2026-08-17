@@ -127,7 +127,7 @@ const PostCardFooter = ({
                         className="group flex items-center gap-1.5 cursor-pointer"
                     >
                         <Heart
-                            className={`h-5 w-5 md:h-6 md:w-6 transition-all duration-200 ${isLiked
+                            className={`h-5 w-5 transition-all duration-200 ${isLiked
                                 ? "fill-black text-black scale-110"
                                 : "text-gray-700 group-hover:text-black"
                                 }`}
@@ -158,6 +158,7 @@ const PostCardFooter = ({
                         isLiked={isLiked}
                         isSaved={isSaved}
                         handleSave={handleSave}
+                        setIsShareOpen={setIsShareOpen}
                     />
 
 
@@ -167,9 +168,9 @@ const PostCardFooter = ({
                         onClick={() => setIsShareOpen(true)}
                         className="group flex items-center gap-1.5 cursor-pointer"
                     >
-                        <Share2 className="h-5 w-5 md:h-6 md:w-6 text-gray-700 transition-colors group-hover:text-black" />
+                        <Share2 className="h-5 w-5 text-gray-700 transition-colors group-hover:text-black" />
                     </button>
-                    
+
                     {/* if share modal open then show it */}
                     {isShareOpen && (
                         <ShareModal
@@ -189,7 +190,7 @@ const PostCardFooter = ({
                     className="group cursor-pointer"
                 >
                     <Bookmark
-                        className={`h-5 w-5 md:h-6 md:w-6 transition-all duration-200
+                        className={`h-5 w-5 transition-all duration-200
                             ${isSaved
                                 ? "fill-black text-black"
                                 : "text-gray-700 group-hover:text-black"

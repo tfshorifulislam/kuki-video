@@ -26,6 +26,7 @@ const CommentModal = ({
     likesCount,
     isLiked,
     isSaved,
+    setIsShareOpen,
     handleLike,
     handleSave,
 }: CommentModalProps) => {
@@ -79,7 +80,7 @@ const CommentModal = ({
                 <span
                     className="flex items-center gap-1.5 px-3 py-2 rounded-md transition-colors text-xs font-medium text-gray-600 cursor-pointer"
                 >
-                    <MessageCircle className="h-5 w-5 md:h-6 md:w-6 text-gray-500" />
+                    <MessageCircle className="h-5 w-5 text-gray-500" />
                     <span>{comments.length}</span>
                 </span>
             </DialogTrigger>
@@ -232,7 +233,11 @@ const CommentModal = ({
                                     <Heart className={`h-5 w-5 ${isLiked ? "fill-black text-black" : "text-gray-800"}`} />
                                 </button>
 
-                                <button className="hover:opacity-75 transition-opacity cursor-pointer text-gray-800">
+                                {/* Share */}
+                                <button
+                                    type="button"
+                                    onClick={() => setIsShareOpen(true)}
+                                    className="hover:opacity-75 transition-opacity cursor-pointer text-gray-800">
                                     <Send className="h-5 w-5" />
                                 </button>
                             </div>

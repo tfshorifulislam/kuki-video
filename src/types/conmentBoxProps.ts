@@ -24,7 +24,9 @@ export interface CommentModalProps {
     isLiked: boolean;
 
     handleSave: () => void;
-    isSaved:boolean;
+    isSaved: boolean;
+
+    setIsShareOpen: (value: boolean) => void;
 }
 
 export interface Comment {

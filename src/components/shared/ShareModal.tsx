@@ -82,7 +82,7 @@ const ShareModal = ({
     return (
         <div
             className="
-                fixed inset-0 z-[100]
+                fixed inset-0 z-100
                 flex items-end sm:items-center justify-center
                 bg-black/50
                 backdrop-blur-[2px]
@@ -95,7 +95,7 @@ const ShareModal = ({
                 className="
                     relative
                     w-full
-                    sm:max-w-[460px]
+                    sm:max-w-115
                     bg-white
                     rounded-t-[28px]
                     sm:rounded-[24px]
@@ -143,7 +143,7 @@ const ShareModal = ({
                         "
                         aria-label="Close"
                     >
-                        <FiX className="w-[18px] h-[18px]" />
+                        <FiX className="w-4.5 h-4.5" />
                     </button>
                 </div>
 
@@ -175,7 +175,7 @@ const ShareModal = ({
                         {/* Icon */}
                         <div
                             className="
-                                flex-shrink-0
+                                shrink-0
                                 w-11 h-11
                                 rounded-full
                                 bg-gray-100
@@ -204,7 +204,7 @@ const ShareModal = ({
 
 
                         {/* Copy Icon */}
-                        <div className="flex-shrink-0 text-gray-400">
+                        <div className="shrink-0 text-gray-400">
                             {copied ? (
                                 <FiCheck className="w-5 h-5 text-green-600" />
                             ) : (
