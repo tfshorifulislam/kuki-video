@@ -69,12 +69,39 @@ const PostCardFooter = ({
 
 
     return (
-        <div className="px-4 py-2.5 border-t border-gray-100 bg-white text-xs text-black">
+        <div className="px-4 py-3 bg-white border-t border-gray-100">
+            <div className="flex items-center justify-between">
 
-            <div className="flex flex-wrap items-center justify-between gap-2 font-medium">
+                {/* Left Actions */}
+                <div className="flex items-center gap-5">
 
-                <div className="flex items-center gap-2">
 
+                    {/* Like */}
+                    <button
+                        type="button"
+                        onClick={handleLike}
+                        disabled={isLoadingLike}
+                        className="group flex items-center gap-1.5 cursor-pointer"
+                    >
+                        <Heart
+                            className={`h-5 w-5 md:h-6 md:w-6 transition-all duration-200 ${isLiked
+                                    ? "fill-black text-black scale-110"
+                                    : "text-gray-700 group-hover:text-black"
+                                }`}
+                        />
+
+                        <span
+                            className={`text-xs font-medium ${isLiked
+                                    ? "text-black"
+                                    : "text-black"
+                                }`}
+                        >
+                            {likesCount}
+                        </span>
+                    </button>
+
+
+                    {/* Comment */}
                     <CommentModal
                         postId={postId}
                         commentsCount={commentsCount}
@@ -88,62 +115,32 @@ const PostCardFooter = ({
                         isLiked={isLiked}
                     />
 
-                    <span className="text-gray-300">|</span>
 
-                    <button
-                        type="button"
-                        onClick={handleLike}
-                        disabled={isLoadingLike}
-                        className={`flex items-center gap-1.5 px-3 py-2 rounded-md transition-colors text-xs font-medium ${isLiked
-                            ? "bg-black text-white font-bold"
-                            : "text-gray-600 bg-gray-100 hover:bg-gray-200"
-                            }`}
-                    >
-                        <Heart
-                            className={`h-3.5 w-3.5 ${isLiked ? "fill-current" : ""
-                                }`}
-                        />
-
-                        <span>
-                            {isLiked ? "Favorited" : "Favorites"} (
-                            {likesCount}
-                            )
-                        </span>
-                    </button>
-                </div>
-
-
-                <div className="flex items-center gap-2">
-
+                    {/* Share */}
                     <button
                         type="button"
                         onClick={onShare}
-                        className="flex items-center gap-1.5 px-3 py-2 rounded-md transition-colors text-xs font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 cursor-pointer"
+                        className="group flex items-center gap-1.5 cursor-pointer"
                     >
-                        <Share2 className="h-3.5 w-3.5" />
-                        <span>Share</span>
-                    </button>
-
-                    <span className="text-gray-300">|</span>
-
-                    <button
-                        type="button"
-                        onClick={onSave}
-                        className={`flex items-center gap-1.5 px-3 py-2 rounded-md transition-colors text-xs font-medium ${isSaved
-                            ? "bg-black text-white font-bold"
-                            : "text-gray-600 bg-gray-100 hover:bg-gray-200"
-                            }`}
-                    >
-                        <Bookmark
-                            className={`h-3.5 w-3.5 ${isSaved ? "fill-current" : ""
-                                }`}
-                        />
-                        <span>
-                            {isSaved ? "Saved" : "Save"}
-                        </span>
+                        <Share2 className="h-5 w-5 md:h-6 md:w-6 text-gray-700 transition-colors group-hover:text-black" />
                     </button>
 
                 </div>
+
+
+                {/* Right Action */}
+                <button
+                    type="button"
+                    onClick={onSave}
+                    className="group cursor-pointer"
+                >
+                    <Bookmark
+                        className={`h-5 w-5 md:h-6 md:w-6 transition-all duration-200 ${isSaved
+                                ? "fill-black text-black"
+                                : "text-gray-700 group-hover:text-black"
+                            }`}
+                    />
+                </button>
 
             </div>
         </div>

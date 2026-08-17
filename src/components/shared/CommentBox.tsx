@@ -75,10 +75,10 @@ const CommentModal = ({
         <Dialog>
             <DialogTrigger >
                 <span
-                    className="flex items-center gap-1.5 px-3 py-2 rounded-md transition-colors text-xs font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 cursor-pointer"
+                    className="flex items-center gap-1.5 px-3 py-2 rounded-md transition-colors text-xs font-medium text-gray-600 cursor-pointer"
                 >
-                    <MessageCircle className="h-4 w-4 text-gray-500" />
-                    <span>Comment ({comments.length})</span>
+                    <MessageCircle className="h-5 w-5 md:h-6 md:w-6 text-gray-500" />
+                    <span>{comments.length}</span>
                 </span>
             </DialogTrigger>
 
