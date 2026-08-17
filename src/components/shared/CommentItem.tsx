@@ -16,31 +16,26 @@ const CommentItem = ({
     onReply,
     depth = 0,
 }: CommentItemProps) => {
-
     const [showReplies, setShowReplies] = useState(false);
 
     const repliesCount = comment.replies?.length ?? 0;
+    const isReply = depth > 0;
 
     return (
-        <div className="space-y-2">
+        <div className="w-full min-w-0 space-y-2">
 
-            {/* =========================
-                Current Comment
-            ========================== */}
+            {/* Current Comment */}
             <div
-                className="flex items-start gap-3 text-xs"
-                style={{
-                    marginLeft:
-                        depth > 0
-                            ? `${Math.min(depth, 4) * 20}px`
-                            : undefined,
-                }}
+                className={`
+                    flex items-start gap-3 text-xs w-full min-w-0
+                    ${isReply ? "pl-3" : ""}
+                `}
             >
 
                 {/* Avatar */}
                 <Avatar
                     className={
-                        depth > 0
+                        isReply
                             ? "h-6 w-6 shrink-0"
                             : "h-7 w-7 shrink-0"
                     }
@@ -56,11 +51,10 @@ const CommentItem = ({
                 </Avatar>
 
 
-                {/* Comment Content */}
+                {/* Content */}
                 <div className="flex-1 min-w-0 space-y-1">
 
-                    <p className="text-gray-900 text-xs leading-relaxed">
-
+                    <p className="text-gray-900 text-xs leading-relaxed break-words">
                         <span className="font-semibold mr-2">
                             {comment.user?.name}
                         </span>
@@ -72,11 +66,10 @@ const CommentItem = ({
                         )}
 
                         {comment.content}
-
                     </p>
 
 
-                    {/* Comment Actions */}
+                    {/* Actions */}
                     <div className="flex items-center gap-3 text-[10px] text-gray-400">
 
                         <span>
@@ -94,7 +87,6 @@ const CommentItem = ({
                         </button>
 
                     </div>
-
                 </div>
 
 
@@ -109,18 +101,9 @@ const CommentItem = ({
             </div>
 
 
-            {/* =========================
-                View Replies Button
-            ========================== */}
+            {/* View Replies */}
             {repliesCount > 0 && (
-                <div
-                    style={{
-                        marginLeft:
-                            depth > 0
-                                ? `${40 + Math.min(depth, 4) * 20}px`
-                                : "40px",
-                    }}
-                >
+                <div className="pl-10">
                     <button
                         type="button"
                         onClick={() =>
@@ -130,29 +113,19 @@ const CommentItem = ({
                     >
                         {showReplies
                             ? "Hide replies"
-                            : `View ${repliesCount} ${repliesCount === 1
-                                ? "reply"
-                                : "replies"
+                            : `View ${repliesCount} ${
+                                repliesCount === 1
+                                    ? "reply"
+                                    : "replies"
                             }`}
                     </button>
                 </div>
             )}
 
 
-            {/* =========================
-                Recursive Replies
-            ========================== */}
+            {/* Replies */}
             {showReplies && repliesCount > 0 && (
-                <div
-                    className="space-y-3 border-l border-gray-100"
-                    style={{
-                        marginLeft:
-                            depth > 0
-                                ? `${40 + Math.min(depth, 4) * 20}px`
-                                : "40px",
-                        paddingLeft: "12px",
-                    }}
-                >
+                <div className="ml-3 pl-3 border-l border-gray-100 space-y-3 max-w-full">
 
                     {comment.replies?.map((reply) => (
                         <CommentItem
