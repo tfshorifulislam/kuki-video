@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { LikeStatus } from "@/services/getAllLikeAtOnePost";
 import { SaveStatus } from "@/services/saveStatus";
 import { ToggleSave } from "@/services/toggleSave";
+import ShareModal from "./ShareModal";
 
 const PostCardFooter = ({
     likesCount: initialLikesCount = 0,
@@ -26,6 +27,7 @@ const PostCardFooter = ({
     const [isLoadingLike, setIsLoadingLike] = useState(true);
 
     const [isSaved, setIsSaved] = useState(false);
+    const [isShareOpen, setIsShareOpen] = useState(false);
 
     useEffect(() => {
         if (!currentUser?.id) return;
@@ -162,11 +164,20 @@ const PostCardFooter = ({
                     {/* Share */}
                     <button
                         type="button"
-                        onClick={onShare}
+                        onClick={() => setIsShareOpen(true)}
                         className="group flex items-center gap-1.5 cursor-pointer"
                     >
                         <Share2 className="h-5 w-5 md:h-6 md:w-6 text-gray-700 transition-colors group-hover:text-black" />
                     </button>
+                    
+                    {/* if share modal open then show it */}
+                    {isShareOpen && (
+                        <ShareModal
+                            postId={postId}
+                            title={title}
+                            onClose={() => setIsShareOpen(false)}
+                        />
+                    )}
 
                 </div>
 

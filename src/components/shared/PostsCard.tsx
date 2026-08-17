@@ -31,7 +31,7 @@ const PostsCard = async ({ post }: PostsCardProps) => {
     console.log(currentUser, 'user')
 
     return (
-        <Card className="w-full max-w-155 mx-auto overflow-hidden rounded-lg sm:rounded-2xl border-x-0 sm:border border-gray-200 bg-white shadow-none transition-colors hover:bg-gray-50/30">
+        <Card className="w-full max-w-155 mx-auto overflow-hidden rounded-lg sm:rounded-2xl border-x-0 sm:border border-gray-200 bg-white shadow-none transition-colors">
 
             <PostHeader
                 user={user}
