@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { createStory } from "@/services/createStory";
 
 interface CreateStoryProps {
     userId: string;
@@ -19,21 +20,18 @@ export default function CreateStory({
         useState(false);
 
 
-    async function handleFile(
-        file: File
-    ) {
+    async function handleFile(file: File) {
 
         try {
 
             setUploading(true);
 
 
-            // =========================
-            // CLOUDINARY UPLOAD
-            // =========================
+            // =================================
+            // UPLOAD TO CLOUDINARY
+            // =================================
 
-            const formData =
-                new FormData();
+            const formData = new FormData();
 
             formData.append(
                 "file",
@@ -62,9 +60,9 @@ export default function CreateStory({
                 await uploadResponse.json();
 
 
-            // =========================
-            // CREATE STORY
-            // =========================
+            // =================================
+            // MEDIA TYPE
+            // =================================
 
             const mediaType =
                 file.type.startsWith(
@@ -74,42 +72,31 @@ export default function CreateStory({
                     : "image";
 
 
-            const response =
-                await fetch(
-                    `${process.env.NEXT_PUBLIC_API_URL}/api/stories`,
-                    {
-                        method: "POST",
+            // =================================
+            // CREATE STORY
+            // =================================
 
-                        headers: {
-                            "Content-Type":
-                                "application/json",
-                        },
+            await createStory({
+                userId,
 
-                        body: JSON.stringify({
-                            userId,
+                mediaUrl:
+                    uploaded.url,
 
-                            mediaUrl:
-                                uploaded.url,
-
-                            mediaType,
-                        }),
-                    }
-                );
+                mediaType,
+            });
 
 
-            if (!response.ok) {
-                throw new Error(
-                    "Story creation failed"
-                );
-            }
-
+            // =================================
+            // REFRESH STORY TRAY
+            // =================================
 
             onCreated?.();
+
 
         } catch (error) {
 
             console.error(
-                "CREATE STORY:",
+                "CREATE STORY ERROR:",
                 error
             );
 
@@ -117,6 +104,11 @@ export default function CreateStory({
 
             setUploading(false);
 
+            // Same file আবার select
+            // করার সুযোগ থাকবে
+            if (inputRef.current) {
+                inputRef.current.value = "";
+            }
         }
     }
 
@@ -126,10 +118,7 @@ export default function CreateStory({
             <input
                 ref={inputRef}
                 type="file"
-                accept="
-                    image/*
-                    ,video/*
-                "
+                accept="image/*,video/*"
                 hidden
                 onChange={(event) => {
 
@@ -144,24 +133,26 @@ export default function CreateStory({
 
 
             <button
+                type="button"
                 disabled={uploading}
                 onClick={() =>
                     inputRef.current?.click()
                 }
                 className="
+                    flex
                     h-16
                     w-16
+                    shrink-0
+                    items-center
+                    justify-center
                     rounded-full
                     border-2
                     border-dashed
-                    flex
-                    items-center
-                    justify-center
+                    border-gray-400
+                    disabled:opacity-50
                 "
             >
-                {uploading
-                    ? "..."
-                    : "+"}
+                {uploading ? "..." : "+"}
             </button>
         </>
     );
