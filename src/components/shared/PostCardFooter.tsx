@@ -1,7 +1,8 @@
 
 import { PostCardFooterProps } from "@/types/post";
-import { Bookmark, Heart, MessageCircle, Share2 } from "lucide-react";
+import { Bookmark, Heart, Share2 } from "lucide-react";
 import CommentDrawer from "./CommentBox";
+import CommentModal from "./CommentBox";
 
 const PostCardFooter = ({
     likesCount,
@@ -11,7 +12,11 @@ const PostCardFooter = ({
     onLike,
     onShare,
     onSave,
-    postId
+    postId,
+    title,
+    media,
+    createdAt,
+    user
 }: PostCardFooterProps) => {
 
 
@@ -25,8 +30,15 @@ const PostCardFooter = ({
                     {/* Comment Link */}
                     <div className="px-4 py-2">
                         <div>
-                            
-                            <CommentDrawer postId={postId} commentsCount={commentsCount} />
+
+                            <CommentModal
+                                postId={postId}
+                                commentsCount={commentsCount}
+                                title={title}
+                                media={media}
+                                createdAt={createdAt}
+                                user={user}
+                            />
                         </div>
                     </div>
 

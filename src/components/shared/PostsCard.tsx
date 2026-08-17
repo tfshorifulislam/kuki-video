@@ -53,6 +53,10 @@ const PostsCard = async ({ post }: PostsCardProps) => {
             <PostCardFooter
                 likesCount={getLikes.likesCount}
                 postId = {id}
+                media={media}
+                title={title}
+                user={user}
+                createdAt={createdAt}
             />
         </Card>
     );
