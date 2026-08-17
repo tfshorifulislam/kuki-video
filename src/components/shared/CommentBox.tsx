@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { MessageCircle, Send, X, Smile, Heart, MessageSquare, Bookmark, MoreHorizontal } from "lucide-react";
+import { MessageCircle, Send, X, Smile, Heart, Bookmark, MoreHorizontal } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
     Dialog,
@@ -18,17 +18,17 @@ import { Textarea } from "../ui/textarea";
 
 const CommentModal = ({
     postId,
-    commentsCount,
     title,
     media,
     createdAt,
     user,
     currentUser,
+    handleLike,
+    likesCount,
+    isLiked
 }: CommentModalProps) => {
     const [comments, setComments] = useState<Comment[]>([]);
     const [commentText, setCommentText] = useState("");
-
-    const [isLiked, setIsLiked] = useState(true)
 
     useEffect(() => {
         const loadComments = async () => {
@@ -224,14 +224,12 @@ const CommentModal = ({
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-4">
                                 <button
-                                    onClick={() => setIsLiked(!isLiked)}
+                                     onClick={handleLike}
                                     className="hover:opacity-75 transition-opacity cursor-pointer"
                                 >
-                                    <Heart className={`h-5 w-5 ${isLiked ? "fill-red-500 text-red-500" : "text-gray-800"}`} />
+                                    <Heart className={`h-5 w-5 ${isLiked ? "fill-black text-black" : "text-gray-800"}`} />
                                 </button>
-                                <button className="hover:opacity-75 transition-opacity cursor-pointer text-gray-800">
-                                    <MessageSquare className="h-5 w-5 -scale-x-100" />
-                                </button>
+                                
                                 <button className="hover:opacity-75 transition-opacity cursor-pointer text-gray-800">
                                     <Send className="h-5 w-5" />
                                 </button>
@@ -241,7 +239,7 @@ const CommentModal = ({
                             </button>
                         </div>
                         <div className="text-xs font-semibold text-gray-900">
-                            11 likes
+                            {likesCount} likes
                         </div>
                         <div className="text-[10px] text-gray-400 uppercase tracking-wide">
                             {createdAt ? new Date(createdAt).toLocaleDateString() : "YESTERDAY"}
@@ -249,7 +247,7 @@ const CommentModal = ({
                     </div>
 
 
-                    <div className="px-4 py-3 border-t border-gray-100 bg-white shrink-0">
+                    <div className="px-4 mb-5 py-3 border-t border-gray-100 bg-white shrink-0">
                         <form onSubmit={handleComment} className="flex items-center gap-3">
                             <button type="button" className="text-gray-800 hover:text-gray-600 cursor-pointer">
                                 <Smile className="h-6 w-6" />
@@ -258,7 +256,7 @@ const CommentModal = ({
                                 placeholder="Write a comment..."
                                 value={commentText}
                                 onChange={(e) => setCommentText(e.target.value)}
-                                className="w-full min-h-10 max-h-24 resize-none border-none shadow-none bg-transparent text-xs text-gray-900 placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0"
+                                className="w-full min-h-10 max-h-24 border  resize-none shadow-none bg-transparent text-xs text-gray-900 placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0"
                             />
                             {commentText.trim() && (
                                 <button

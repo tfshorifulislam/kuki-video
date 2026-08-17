@@ -18,6 +18,10 @@ export interface CommentModalProps {
         name?: string;
         image?: string | null;
     };
+
+    handleLike: () => void;
+    likesCount: number;
+    isLiked: boolean;
 }
 
 export interface Comment {

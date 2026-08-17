@@ -45,13 +45,11 @@ const PostCardFooter = ({
 
         loadLikeStatus();
 
-        return () => {
-            cancelled = true;
-        };
+        return () => { cancelled = true; };
     }, [postId, currentUser?.id]);
 
 
-    // Like / Unlike
+
     const handleLike = async () => {
         if (!currentUser?.id || isLoadingLike) return;
 
@@ -85,6 +83,9 @@ const PostCardFooter = ({
                         createdAt={createdAt}
                         user={user}
                         currentUser={currentUser}
+                        handleLike={handleLike}
+                        likesCount={likesCount}
+                        isLiked={isLiked}
                     />
 
                     <span className="text-gray-300">|</span>
@@ -94,8 +95,8 @@ const PostCardFooter = ({
                         onClick={handleLike}
                         disabled={isLoadingLike}
                         className={`flex items-center gap-1.5 px-3 py-2 rounded-md transition-colors text-xs font-medium ${isLiked
-                                ? "bg-black text-white font-bold"
-                                : "text-gray-600 bg-gray-100 hover:bg-gray-200"
+                            ? "bg-black text-white font-bold"
+                            : "text-gray-600 bg-gray-100 hover:bg-gray-200"
                             }`}
                     >
                         <Heart
@@ -129,15 +130,14 @@ const PostCardFooter = ({
                         type="button"
                         onClick={onSave}
                         className={`flex items-center gap-1.5 px-3 py-2 rounded-md transition-colors text-xs font-medium ${isSaved
-                                ? "bg-black text-white font-bold"
-                                : "text-gray-600 bg-gray-100 hover:bg-gray-200"
+                            ? "bg-black text-white font-bold"
+                            : "text-gray-600 bg-gray-100 hover:bg-gray-200"
                             }`}
                     >
                         <Bookmark
                             className={`h-3.5 w-3.5 ${isSaved ? "fill-current" : ""
                                 }`}
                         />
-
                         <span>
                             {isSaved ? "Saved" : "Save"}
                         </span>
