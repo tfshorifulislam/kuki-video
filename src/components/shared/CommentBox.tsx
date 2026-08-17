@@ -23,9 +23,11 @@ const CommentModal = ({
     createdAt,
     user,
     currentUser,
-    handleLike,
     likesCount,
-    isLiked
+    isLiked,
+    isSaved,
+    handleLike,
+    handleSave,
 }: CommentModalProps) => {
     const [comments, setComments] = useState<Comment[]>([]);
     const [commentText, setCommentText] = useState("");
@@ -224,25 +226,32 @@ const CommentModal = ({
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-4">
                                 <button
-                                     onClick={handleLike}
+                                    onClick={handleLike}
                                     className="hover:opacity-75 transition-opacity cursor-pointer"
                                 >
                                     <Heart className={`h-5 w-5 ${isLiked ? "fill-black text-black" : "text-gray-800"}`} />
                                 </button>
-                                
+
                                 <button className="hover:opacity-75 transition-opacity cursor-pointer text-gray-800">
                                     <Send className="h-5 w-5" />
                                 </button>
                             </div>
-                            <button className="hover:opacity-75 transition-opacity cursor-pointer text-gray-800">
-                                <Bookmark className="h-5 w-5" />
+                            <button
+                                type="button"
+                                onClick={handleSave}
+                                className="group cursor-pointer"
+                            >
+                                <Bookmark
+                                    className={`h-5 w-5 md:h-6 md:w-6 transition-all duration-200
+                            ${isSaved
+                                            ? "fill-black text-black"
+                                            : "text-gray-700 group-hover:text-black"
+                                        }`}
+                                />
                             </button>
                         </div>
                         <div className="text-xs font-semibold text-gray-900">
                             {likesCount} likes
-                        </div>
-                        <div className="text-[10px] text-gray-400 uppercase tracking-wide">
-                            {createdAt ? new Date(createdAt).toLocaleDateString() : "YESTERDAY"}
                         </div>
                     </div>
 

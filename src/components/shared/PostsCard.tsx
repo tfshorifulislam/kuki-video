@@ -28,16 +28,17 @@ const PostsCard = async ({ post }: PostsCardProps) => {
     })
 
     const currentUser = currentUserInfo?.user
-    console.log( currentUser,'user')
+    console.log(currentUser, 'user')
 
     return (
         <Card className="w-full max-w-155 mx-auto overflow-hidden rounded-lg sm:rounded-2xl border-x-0 sm:border border-gray-200 bg-white shadow-none transition-colors hover:bg-gray-50/30">
-            {/* Header Component */}
+
             <PostHeader
                 user={user}
-                createdAt={createdAt} />
+                createdAt={createdAt}
+            />
 
-            {/* Content */}
+
             <div className="px-4 pb-3">
                 {title && (
                     <h2 className="mb-1 text-[15px] font-semibold leading-6 text-gray-950">
@@ -52,13 +53,11 @@ const PostsCard = async ({ post }: PostsCardProps) => {
                 )}
             </div>
 
-            {/* Media */}
             <PostMedia
                 media={media}
                 title={title}
             />
 
-            {/* Actions */}
             <PostCardFooter
                 likesCount={getLikes.likesCount}
                 postId={id}
@@ -66,7 +65,7 @@ const PostsCard = async ({ post }: PostsCardProps) => {
                 title={title}
                 user={user}
                 createdAt={createdAt}
-                currentUser ={currentUser}
+                currentUser={currentUser}
             />
         </Card>
     );

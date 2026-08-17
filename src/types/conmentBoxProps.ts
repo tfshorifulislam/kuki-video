@@ -22,6 +22,9 @@ export interface CommentModalProps {
     handleLike: () => void;
     likesCount: number;
     isLiked: boolean;
+
+    handleSave: () => void;
+    isSaved:boolean;
 }
 
 export interface Comment {

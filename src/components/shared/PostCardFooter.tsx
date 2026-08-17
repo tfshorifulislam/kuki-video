@@ -117,7 +117,6 @@ const PostCardFooter = ({
                 {/* Left Actions */}
                 <div className="flex items-center gap-5">
 
-
                     {/* Like */}
                     <button
                         type="button"
@@ -155,6 +154,8 @@ const PostCardFooter = ({
                         handleLike={handleLike}
                         likesCount={likesCount}
                         isLiked={isLiked}
+                        isSaved={isSaved}
+                        handleSave={handleSave}
                     />
 
 
@@ -177,9 +178,10 @@ const PostCardFooter = ({
                     className="group cursor-pointer"
                 >
                     <Bookmark
-                        className={`h-5 w-5 md:h-6 md:w-6 transition-all duration-200 ${isSaved
-                            ? "fill-black text-black"
-                            : "text-gray-700 group-hover:text-black"
+                        className={`h-5 w-5 md:h-6 md:w-6 transition-all duration-200
+                            ${isSaved
+                                ? "fill-black text-black"
+                                : "text-gray-700 group-hover:text-black"
                             }`}
                     />
                 </button>
