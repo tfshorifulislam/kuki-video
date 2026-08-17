@@ -6,13 +6,13 @@ import CommentModal from "./CommentBox";
 import { ToggleLike } from "@/services/toggleLike";
 import { useEffect, useState } from "react";
 import { LikeStatus } from "@/services/getAllLikeAtOnePost";
+import { SaveStatus } from "@/services/saveStatus";
+import { ToggleSave } from "@/services/toggleSave";
 
 const PostCardFooter = ({
     likesCount: initialLikesCount = 0,
     commentsCount = 0,
-    isSaved = false,
     onShare,
-    onSave,
     postId,
     title,
     media,
@@ -24,6 +24,33 @@ const PostCardFooter = ({
     const [isLiked, setIsLiked] = useState(false);
     const [likesCount, setLikesCount] = useState(initialLikesCount);
     const [isLoadingLike, setIsLoadingLike] = useState(true);
+
+    const [isSaved, setIsSaved] = useState(false);
+
+    useEffect(() => {
+        if (!currentUser?.id) return;
+
+        let cancelled = false;
+
+        const loadSaveStatus = async () => {
+            const result = await SaveStatus(
+                postId,
+                currentUser.id
+            );
+
+            if (cancelled) return;
+
+            setIsSaved(result.isSaved);
+        };
+
+        loadSaveStatus();
+
+        return () => {
+            cancelled = true;
+        };
+    }, [postId, currentUser?.id]);
+
+
 
     useEffect(() => {
         if (!currentUser?.id) return;
@@ -67,6 +94,21 @@ const PostCardFooter = ({
         setLikesCount(result.likesCount);
     };
 
+    const handleSave = async () => {
+        if (!currentUser?.id) return;
+
+        const result = await ToggleSave(
+            postId,
+            currentUser.id
+        );
+
+        if (!result.success) {
+            console.error(result.message);
+            return;
+        }
+
+        setIsSaved(result.saved);
+    };
 
     return (
         <div className="px-4 py-3 bg-white border-t border-gray-100">
@@ -85,15 +127,15 @@ const PostCardFooter = ({
                     >
                         <Heart
                             className={`h-5 w-5 md:h-6 md:w-6 transition-all duration-200 ${isLiked
-                                    ? "fill-black text-black scale-110"
-                                    : "text-gray-700 group-hover:text-black"
+                                ? "fill-black text-black scale-110"
+                                : "text-gray-700 group-hover:text-black"
                                 }`}
                         />
 
                         <span
                             className={`text-xs font-medium ${isLiked
-                                    ? "text-black"
-                                    : "text-black"
+                                ? "text-black"
+                                : "text-black"
                                 }`}
                         >
                             {likesCount}
@@ -131,13 +173,13 @@ const PostCardFooter = ({
                 {/* Right Action */}
                 <button
                     type="button"
-                    onClick={onSave}
+                    onClick={handleSave}
                     className="group cursor-pointer"
                 >
                     <Bookmark
                         className={`h-5 w-5 md:h-6 md:w-6 transition-all duration-200 ${isSaved
-                                ? "fill-black text-black"
-                                : "text-gray-700 group-hover:text-black"
+                            ? "fill-black text-black"
+                            : "text-gray-700 group-hover:text-black"
                             }`}
                     />
                 </button>
