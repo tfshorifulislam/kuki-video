@@ -114,7 +114,7 @@ const CommentModal = ({
                 style={{ maxWidth: "1200px" }}
                 className="w-[98vw] h-[90vh] max-h-212.5 p-0 bg-white rounded-xl overflow-hidden border-none shadow-2xl grid grid-cols-1 md:grid-cols-[1.6fr_1fr] [&>button]:hidden"
             >
-             
+
                 <div className="w-full h-full bg-black flex items-center justify-center overflow-hidden relative">
                     {media && media.length > 0 ? (
                         <PostMedia media={media} title={title} />
@@ -126,7 +126,7 @@ const CommentModal = ({
                 </div>
 
                 <div className="w-full bg-white flex flex-col h-full relative border-l border-gray-100 overflow-hidden">
-                    
+
                     <CommentModalHeader user={user} />
 
                     <div className="flex-1 overflow-y-auto px-4 py-3 space-y-4 bg-white flex flex-col">
@@ -137,6 +137,7 @@ const CommentModal = ({
                             <CommentItem
                                 key={comment.id}
                                 comment={comment}
+                                currentUserId={currentUser?.id}
                                 onReply={(selectedComment) => {
                                     setReplyTo(selectedComment);
                                     setCommentText("");

@@ -42,18 +42,25 @@ export interface Comment {
     content: string;
     postId: number;
     userId: string;
-
-    // null = main comment
-    // number = reply
     parentId: number | null;
-
     createdAt: string;
 
-    user: CommentUser;
+    user: {
+        id: string;
+        name: string;
+        image: string | null;
+    };
 
     post: {
         userId: string;
     };
 
-    replies: Comment[];
+    likes?: {
+        id: number;
+        userId: string;
+        commentId: number;
+        createdAt: string;
+    }[];
+
+    replies?: Comment[];
 }
