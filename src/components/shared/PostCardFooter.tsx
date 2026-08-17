@@ -25,10 +25,8 @@ const PostCardFooter = ({
 
             <div className="flex flex-wrap items-center justify-between gap-2 font-medium">
 
-                {/* Left side actions */}
                 <div className="flex items-center gap-2">
-                    {/* Comment Link */}
-                    <div className="px-4 py-2">
+                    <div>
                         <div>
 
                             <CommentModal
@@ -45,11 +43,10 @@ const PostCardFooter = ({
 
                     <span className="text-gray-300">|</span>
 
-                    {/* Like / Favorite Link */}
                     <button
                         type="button"
                         onClick={onLike}
-                        className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full transition-colors ${isLiked ? "bg-black text-white font-bold" : "bg-gray-100 hover:bg-gray-200 text-black"
+                        className={`flex items-center gap-1.5 px-3 py-2 rounded-md transition-colors text-xs font-medium ${isLiked ? "bg-black text-white font-bold" : "text-gray-600 bg-gray-100 hover:bg-gray-200 cursor-pointer"
                             }`}
                     >
                         <Heart className={`h-3.5 w-3.5 ${isLiked ? "fill-current" : ""}`} />
@@ -57,13 +54,12 @@ const PostCardFooter = ({
                     </button>
                 </div>
 
-                {/* Right side actions */}
                 <div className="flex items-center gap-2">
-                    {/* Share Link */}
+  
                     <button
                         type="button"
                         onClick={onShare}
-                        className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                        className="flex items-center gap-1.5 px-3 py-2 rounded-md transition-colors text-xs font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 cursor-pointer"
                     >
                         <Share2 className="h-3.5 w-3.5" />
                         <span>Share</span>
@@ -75,7 +71,7 @@ const PostCardFooter = ({
                     <button
                         type="button"
                         onClick={onSave}
-                        className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full transition-colors ${isSaved ? "bg-black text-white font-bold" : "bg-gray-100 hover:bg-gray-200 text-black"
+                        className={`flex items-center gap-1.5 px-3 py-2 rounded-md transition-colors text-xs font-medium ${isSaved ? "bg-black text-white font-bold" : "text-gray-600 bg-gray-100 hover:bg-gray-200 cursor-pointer"
                             }`}
                     >
                         <Bookmark className={`h-3.5 w-3.5 ${isSaved ? "fill-current" : ""}`} />

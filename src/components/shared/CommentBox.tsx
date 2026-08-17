@@ -13,11 +13,12 @@ import Image from "next/image";
 import { CreateComment } from "@/services/postComment";
 import { GetPostComments } from "@/services/getCommnetsAtOnePost";
 import { CommentModalProps, Comment, } from "@/types/conmentBoxProps";
+import { Textarea } from "../ui/textarea";
 
 
 const CommentModal = ({
     postId,
-    commentsCount = 0,
+    commentsCount,
     title,
     media,
     createdAt,
@@ -74,10 +75,10 @@ const CommentModal = ({
         <Dialog>
             <DialogTrigger >
                 <span
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-md hover:bg-gray-100 transition-colors text-xs font-medium text-gray-600 cursor-pointer"
+                    className="flex items-center gap-1.5 px-3 py-2 rounded-md transition-colors text-xs font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 cursor-pointer"
                 >
                     <MessageCircle className="h-4 w-4 text-gray-500" />
-                    <span>Comment ({commentsCount})</span>
+                    <span>Comment ({comments.length})</span>
                 </span>
             </DialogTrigger>
 
@@ -131,7 +132,7 @@ const CommentModal = ({
                             <button className="text-gray-600 hover:text-black cursor-pointer">
                                 <MoreHorizontal className="h-4 w-4" />
                             </button>
-                            {/* ক্রস (X) বাটন */}
+
                             <DialogClose
                                 className="rounded-full p-1.5 hover:bg-gray-100 text-gray-600 transition-colors cursor-pointer">
 
@@ -141,10 +142,10 @@ const CommentModal = ({
                         </div>
                     </div>
 
-                    {/* স্ক্রোলটেবল কন্টেন্ট সেকশন (ক্যাপশন ও কমেন্টস) */}
+
                     <div className="flex-1 overflow-y-auto px-4 py-3 space-y-4 bg-white flex flex-col">
 
-                        {/* পোস্টের ক্যাপশন */}
+
                         {title && (
                             <div className="flex items-start gap-3 text-xs">
                                 <Avatar className="h-7 w-7 shrink-0 mt-0.5">
@@ -177,7 +178,7 @@ const CommentModal = ({
                                 key={comment.id}
                                 className="flex items-start gap-3 text-xs"
                             >
-                                {/* Commenter's Avatar */}
+
                                 <Avatar className="h-7 w-7 shrink-0">
                                     <AvatarImage
                                         src={comment.user?.image ?? undefined}
@@ -253,12 +254,11 @@ const CommentModal = ({
                             <button type="button" className="text-gray-800 hover:text-gray-600 cursor-pointer">
                                 <Smile className="h-6 w-6" />
                             </button>
-                            <input
-                                type="text"
+                            <Textarea
                                 placeholder="Write a comment..."
                                 value={commentText}
                                 onChange={(e) => setCommentText(e.target.value)}
-                                className="w-full bg-transparent text-xs text-gray-900 placeholder:text-gray-400 focus:outline-none"
+                                className="w-full min-h-10 max-h-24 resize-none border-none shadow-none bg-transparent text-xs text-gray-900 placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0"
                             />
                             {commentText.trim() && (
                                 <button

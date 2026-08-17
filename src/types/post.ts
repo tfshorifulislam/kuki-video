@@ -33,10 +33,29 @@ export interface PostHeaderProps {
 
 
 export interface PostCardFooterProps {
+    postId: number;
+
+    title?: string;
+    media?: Media[];
+    createdAt?: string | Date;
+
     likesCount?: number;
     commentsCount?: number;
     isLiked?: boolean;
     isSaved?: boolean;
+
+    currentUser?: {
+        id: string;
+        name?: string;
+        image?: string | null;
+    };
+
+    user?: {
+        id: string;
+        name?: string;
+        image?: string | null;
+    };
+
     onLike?: () => void;
     onComment?: () => void;
     onShare?: () => void;
