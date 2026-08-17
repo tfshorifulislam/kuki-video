@@ -1,12 +1,9 @@
 import PostsCard from "@/components/shared/PostsCard";
+import { PostPageProps } from "@/types/sharePostPage";
 
-interface PostPageProps {
-    params: Promise<{
-        id: string;
-    }>;
-}
 
-const PostPage = async ({ params }: PostPageProps) => {
+
+const ShaprePostPage = async ({ params }: PostPageProps) => {
     const { id } = await params;
 
     const response = await fetch(
@@ -48,4 +45,4 @@ const PostPage = async ({ params }: PostPageProps) => {
     );
 };
 
-export default PostPage;
+export default ShaprePostPage;
