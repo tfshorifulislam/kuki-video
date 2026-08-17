@@ -173,28 +173,11 @@ export default function StoryTray({
                 {/* ================================= */}
 
                 {loading && (
-
                     <>
-                        <div className="
-                            h-16
-                            w-16
-                            shrink-0
-                            animate-pulse
-                            rounded-full
-                            bg-gray-200
-                        />
+                        <div className="h-16 w-16 shrink-0 animate-pulse rounded-full bg-gray-200" />
 
-                        <div className="
-                            h-16
-                            w-16
-                            shrink-0
-                            animate-pulse
-                            rounded-full
-                            bg-gray-200
-                        />
-
+                        <div className="h-16 w-16 shrink-0 animate-pulse rounded-full bg-gray-200" />
                     </>
-
                 )}
 
 
@@ -248,10 +231,9 @@ export default function StoryTray({
                                             rounded-full
                                             p-0.5
 
-                                            ${
-                                                hasSeen
-                                                    ? "bg-gray-400"
-                                                    : "bg-linear-to-tr from-yellow-400 via-pink-500 to-purple-600"
+                                            ${hasSeen
+                                                ? "bg-gray-400"
+                                                : "bg-linear-to-tr from-yellow-400 via-pink-500 to-purple-600"
                                             }
                                         `}
                                     >

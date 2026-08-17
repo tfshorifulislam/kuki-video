@@ -10,13 +10,23 @@ export async function createStory({
     mediaType,
 }: CreateStoryParams) {
 
+    const apiUrl =
+        process.env.NEXT_PUBLIC_URL;
+
+    if (!apiUrl) {
+        throw new Error(
+            "NEXT_PUBLIC_URL is not defined"
+        );
+    }
+
     const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/stories`,
+        `${apiUrl}/api/stories`,
         {
             method: "POST",
 
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type":
+                    "application/json",
             },
 
             body: JSON.stringify({
@@ -27,11 +37,21 @@ export async function createStory({
         }
     );
 
+    const data =
+        await response.json();
+
     if (!response.ok) {
+
+        console.error(
+            "CREATE STORY API ERROR:",
+            data
+        );
+
         throw new Error(
+            data?.message ??
             "Failed to create story"
         );
     }
 
-    return response.json();
+    return data;
 }

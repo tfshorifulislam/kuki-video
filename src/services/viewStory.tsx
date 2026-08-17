@@ -4,7 +4,7 @@ export async function viewStory(
 ) {
 
     const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/stories/${storyId}/view`,
+        `${process.env.NEXT_PUBLIC_URL}/api/stories/${storyId}/view`,
         {
             method: "POST",
 

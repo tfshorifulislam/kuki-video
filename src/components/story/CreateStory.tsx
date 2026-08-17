@@ -1,7 +1,9 @@
 "use client";
 
 import { useRef, useState } from "react";
+
 import { createStory } from "@/services/createStory";
+import { uploadToCloudinary } from "@/services/uploadToCloudinary";
 
 interface CreateStoryProps {
     userId: string;
@@ -19,84 +21,65 @@ export default function CreateStory({
     const [uploading, setUploading] =
         useState(false);
 
-
     async function handleFile(file: File) {
 
         try {
 
             setUploading(true);
 
-
-            // =================================
-            // UPLOAD TO CLOUDINARY
-            // =================================
-
-            const formData = new FormData();
-
-            formData.append(
-                "file",
-                file
+            console.log(
+                "🔥 STORY UPLOAD START"
             );
 
+            // ===============================
+            // CLOUDINARY
+            // ===============================
 
-            const uploadResponse =
-                await fetch(
-                    `${process.env.NEXT_PUBLIC_API_URL}/api/upload`,
-                    {
-                        method: "POST",
-                        body: formData,
-                    }
-                );
+            const mediaUrl =
+                await uploadToCloudinary(file);
 
+            console.log(
+                "CLOUDINARY URL:",
+                mediaUrl
+            );
 
-            if (!uploadResponse.ok) {
+            if (!mediaUrl) {
                 throw new Error(
-                    "Upload failed"
+                    "Cloudinary upload failed"
                 );
             }
 
-
-            const uploaded =
-                await uploadResponse.json();
-
-
-            // =================================
+            // ===============================
             // MEDIA TYPE
-            // =================================
+            // ===============================
 
             const mediaType =
-                file.type.startsWith(
-                    "video/"
-                )
+                file.type.startsWith("video/")
                     ? "video"
                     : "image";
 
-
-            // =================================
+            // ===============================
             // CREATE STORY
-            // =================================
+            // ===============================
 
-            await createStory({
-                userId,
+            const result =
+                await createStory({
+                    userId,
+                    mediaUrl,
+                    mediaType,
+                });
 
-                mediaUrl:
-                    uploaded.url,
-
-                mediaType,
-            });
-
-
-            // =================================
-            // REFRESH STORY TRAY
-            // =================================
+            console.log(
+                "✅ STORY CREATED:",
+                result
+            );
 
             onCreated?.();
-
 
         } catch (error) {
 
             console.error(
-                "CREATE STORY ERROR:",
+                "❌ CREATE STORY ERROR:",
                 error
             );
 
@@ -104,14 +87,11 @@ export default function CreateStory({
 
             setUploading(false);
 
-            // Same file আবার select
-            // করার সুযোগ থাকবে
             if (inputRef.current) {
                 inputRef.current.value = "";
             }
         }
     }
-
 
     return (
         <>
@@ -130,7 +110,6 @@ export default function CreateStory({
                     handleFile(file);
                 }}
             />
-
 
             <button
                 type="button"
