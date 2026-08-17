@@ -62,5 +62,7 @@ export interface Comment {
         createdAt: string;
     }[];
 
+    isLiked?: boolean;
+
     replies?: Comment[];
 }

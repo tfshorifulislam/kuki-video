@@ -2,7 +2,7 @@
 
 import { Comment } from "@/types/conmentBoxProps";
 import { useState } from "react";
-import { CommentContent } from "./CommentContent";
+import CommentContent from "./CommentContent";
 
 interface CommentItemProps {
     comment: Comment;
