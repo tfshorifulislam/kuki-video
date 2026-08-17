@@ -126,6 +126,7 @@ const CommentModal = ({
                 </div>
 
                 <div className="w-full bg-white flex flex-col h-full relative border-l border-gray-100 overflow-hidden">
+                    
                     <CommentModalHeader user={user} />
 
                     <div className="flex-1 overflow-y-auto px-4 py-3 space-y-4 bg-white flex flex-col">

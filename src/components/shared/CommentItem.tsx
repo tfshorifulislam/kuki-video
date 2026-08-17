@@ -54,7 +54,7 @@ const CommentItem = ({
                 {/* Content */}
                 <div className="flex-1 min-w-0 space-y-1">
 
-                    <p className="text-gray-900 text-xs leading-relaxed break-words">
+                    <p className="text-gray-900 text-xs leading-relaxed wrap-break-word">
                         <span className="font-semibold mr-2">
                             {comment.user?.name}
                         </span>
