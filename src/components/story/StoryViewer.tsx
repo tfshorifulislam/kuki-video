@@ -1,14 +1,21 @@
 "use client";
 
 import {
+    useCallback,
     useEffect,
-    useMemo,
+    useRef,
     useState,
 } from "react";
 
-import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+    X,
+    ChevronLeft,
+    ChevronRight,
+} from "lucide-react";
 
 import { Story } from "@/types/story";
+import { viewStory } from "@/services/viewStory";
+
 
 interface StoryViewerProps {
     groups: Story[][];
@@ -16,6 +23,7 @@ interface StoryViewerProps {
     currentUserId: string;
     onClose: () => void;
 }
+
 
 export default function StoryViewer({
     groups,
@@ -34,94 +42,23 @@ export default function StoryViewer({
         useState(0);
 
 
+    const videoRef =
+        useRef<HTMLVideoElement>(null);
+
+
     const currentGroup =
         groups[userIndex] ?? [];
+
 
     const currentStory =
         currentGroup[storyIndex];
 
 
-    const STORY_DURATION = 5000;
-
-
     // ============================================
-    // VIEW STORY
+    // NEXT STORY
     // ============================================
 
-    useEffect(() => {
-
-        if (!currentStory) return;
-
-        fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/api/stories/${currentStory.id}/view`,
-            {
-                method: "POST",
-
-                headers: {
-                    "Content-Type":
-                        "application/json",
-                },
-
-                body: JSON.stringify({
-                    userId: currentUserId,
-                }),
-            }
-        ).catch(console.error);
-
-    }, [
-        currentStory,
-        currentUserId,
-    ]);
-
-
-    // ============================================
-    // PROGRESS
-    // ============================================
-
-    useEffect(() => {
-
-        if (!currentStory) return;
-
-        setProgress(0);
-
-        const interval = setInterval(() => {
-
-            setProgress((previous) => {
-
-                const next =
-                    previous +
-                    100 /
-                    (STORY_DURATION / 100);
-
-                if (next >= 100) {
-
-                    clearInterval(interval);
-
-                    goNext();
-
-                    return 100;
-                }
-
-                return next;
-            });
-
-        }, 100);
-
-        return () => {
-            clearInterval(interval);
-        };
-
-    }, [
-        userIndex,
-        storyIndex,
-    ]);
-
-
-    // ============================================
-    // NEXT
-    // ============================================
-
-    function goNext() {
+    const goNext = useCallback(() => {
 
         if (
             storyIndex <
@@ -152,15 +89,23 @@ export default function StoryViewer({
             return;
         }
 
+
         onClose();
-    }
+
+    }, [
+        storyIndex,
+        currentGroup.length,
+        userIndex,
+        groups.length,
+        onClose,
+    ]);
 
 
     // ============================================
-    // PREVIOUS
+    // PREVIOUS STORY
     // ============================================
 
-    function goPrevious() {
+    const goPrevious = useCallback(() => {
 
         if (storyIndex > 0) {
 
@@ -187,8 +132,188 @@ export default function StoryViewer({
                 previousGroup.length - 1
             );
         }
+
+    }, [
+        storyIndex,
+        userIndex,
+        groups,
+    ]);
+
+
+    // ============================================
+    // MARK AS VIEWED
+    // ============================================
+
+    useEffect(() => {
+
+        if (!currentStory) {
+            return;
+        }
+
+
+        viewStory(
+            currentStory.id,
+            currentUserId
+        ).catch((error) => {
+
+            console.error(
+                "VIEW STORY ERROR:",
+                error
+            );
+
+        });
+
+    }, [
+        currentStory,
+        currentUserId,
+    ]);
+
+
+    // ============================================
+    // IMAGE PROGRESS
+    // ============================================
+
+    useEffect(() => {
+
+        if (!currentStory) {
+            return;
+        }
+
+
+        // Video নিজের event
+        // দিয়ে progress handle করবে
+
+        if (
+            currentStory.mediaType ===
+            "video"
+        ) {
+            return;
+        }
+
+
+        setProgress(0);
+
+
+        const duration = 5000;
+
+        const start =
+            Date.now();
+
+
+        const interval =
+            setInterval(() => {
+
+                const elapsed =
+                    Date.now() -
+                    start;
+
+
+                const percentage =
+                    Math.min(
+                        (elapsed /
+                            duration) *
+                            100,
+                        100
+                    );
+
+
+                setProgress(
+                    percentage
+                );
+
+
+                if (
+                    percentage >=
+                    100
+                ) {
+
+                    clearInterval(
+                        interval
+                    );
+
+                    goNext();
+                }
+
+            }, 50);
+
+
+        return () => {
+
+            clearInterval(
+                interval
+            );
+
+        };
+
+    }, [
+        currentStory,
+        goNext,
+    ]);
+
+
+    // ============================================
+    // VIDEO PROGRESS
+    // ============================================
+
+    function handleVideoTimeUpdate() {
+
+        const video =
+            videoRef.current;
+
+        if (!video) {
+            return;
+        }
+
+
+        if (
+            !video.duration ||
+            Number.isNaN(
+                video.duration
+            )
+        ) {
+            return;
+        }
+
+
+        const percentage =
+            (video.currentTime /
+                video.duration) *
+            100;
+
+
+        setProgress(
+            percentage
+        );
     }
 
+
+    // ============================================
+    // VIDEO LOADED
+    // ============================================
+
+    function handleVideoLoaded() {
+
+        setProgress(0);
+
+    }
+
+
+    // ============================================
+    // VIDEO ENDED
+    // ============================================
+
+    function handleVideoEnded() {
+
+        setProgress(100);
+
+        goNext();
+
+    }
+
+
+    // ============================================
+    // NOTHING
+    // ============================================
 
     if (!currentStory) {
         return null;
@@ -200,31 +325,35 @@ export default function StoryViewer({
             fixed
             inset-0
             z-[999]
-            bg-black
             flex
             items-center
             justify-center
+            bg-black
         ">
 
-            {/* TOP */}
+            {/* ================================= */}
+            {/* TOP AREA */}
+            {/* ================================= */}
 
             <div className="
                 absolute
-                top-4
                 left-1/2
-                -translate-x-1/2
+                top-4
+                z-20
                 w-full
                 max-w-[500px]
+                -translate-x-1/2
                 px-3
-                z-20
             ">
 
-                {/* Progress */}
+                {/* ================================= */}
+                {/* PROGRESS BARS */}
+                {/* ================================= */}
 
                 <div className="
+                    mb-3
                     flex
                     gap-1
-                    mb-3
                 ">
 
                     {currentGroup.map(
@@ -232,12 +361,14 @@ export default function StoryViewer({
 
                             let width = 0;
 
+
                             if (
                                 index <
                                 storyIndex
                             ) {
                                 width = 100;
                             }
+
 
                             if (
                                 index ===
@@ -247,15 +378,16 @@ export default function StoryViewer({
                                     progress;
                             }
 
+
                             return (
                                 <div
                                     key={index}
                                     className="
                                         h-[3px]
-                                        bg-white/30
-                                        rounded-full
                                         flex-1
                                         overflow-hidden
+                                        rounded-full
+                                        bg-white/30
                                     "
                                 >
 
@@ -278,7 +410,9 @@ export default function StoryViewer({
                 </div>
 
 
-                {/* User */}
+                {/* ================================= */}
+                {/* USER HEADER */}
+                {/* ================================= */}
 
                 <div className="
                     flex
@@ -294,25 +428,33 @@ export default function StoryViewer({
 
                         <img
                             src={
-                                currentStory.user
+                                currentStory
+                                    .user
                                     .image ??
                                 "/avatar.png"
                             }
+                            alt={
+                                currentStory
+                                    .user
+                                    .name ??
+                                "User"
+                            }
                             className="
-                                w-9
                                 h-9
+                                w-9
                                 rounded-full
                                 object-cover
                             "
                         />
 
                         <span className="
-                            text-white
                             text-sm
                             font-semibold
+                            text-white
                         ">
                             {
-                                currentStory.user
+                                currentStory
+                                    .user
                                     .name
                             }
                         </span>
@@ -321,6 +463,7 @@ export default function StoryViewer({
 
 
                     <button
+                        type="button"
                         onClick={onClose}
                         className="
                             text-white
@@ -334,14 +477,16 @@ export default function StoryViewer({
             </div>
 
 
+            {/* ================================= */}
             {/* MEDIA */}
+            {/* ================================= */}
 
             <div className="
                 relative
+                flex
                 h-full
                 w-full
                 max-w-[500px]
-                flex
                 items-center
                 justify-center
             ">
@@ -350,12 +495,22 @@ export default function StoryViewer({
                 "video" ? (
 
                     <video
+                        ref={videoRef}
                         src={
                             currentStory.mediaUrl
                         }
                         autoPlay
                         playsInline
                         muted
+                        onTimeUpdate={
+                            handleVideoTimeUpdate
+                        }
+                        onLoadedMetadata={
+                            handleVideoLoaded
+                        }
+                        onEnded={
+                            handleVideoEnded
+                        }
                         className="
                             max-h-full
                             max-w-full
@@ -380,9 +535,12 @@ export default function StoryViewer({
                 )}
 
 
-                {/* PREVIOUS AREA */}
+                {/* ================================= */}
+                {/* PREVIOUS */}
+                {/* ================================= */}
 
                 <button
+                    type="button"
                     onClick={goPrevious}
                     className="
                         absolute
@@ -391,6 +549,7 @@ export default function StoryViewer({
                         h-full
                         w-1/3
                     "
+                    aria-label="Previous story"
                 >
                     <ChevronLeft
                         className="
@@ -401,9 +560,12 @@ export default function StoryViewer({
                 </button>
 
 
-                {/* NEXT AREA */}
+                {/* ================================= */}
+                {/* NEXT */}
+                {/* ================================= */}
 
                 <button
+                    type="button"
                     onClick={goNext}
                     className="
                         absolute
@@ -412,6 +574,7 @@ export default function StoryViewer({
                         h-full
                         w-1/3
                     "
+                    aria-label="Next story"
                 >
                     <ChevronRight
                         className="
