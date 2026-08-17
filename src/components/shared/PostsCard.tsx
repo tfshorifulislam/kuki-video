@@ -4,6 +4,9 @@ import PostMedia from "./PostMedia";
 import PostHeader from "./PostCardHeader";
 import PostCardFooter from "./PostCardFooter";
 import { LikeStatus } from "@/services/getAllLikeAtOnePost";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+
 
 const PostsCard = async ({ post }: PostsCardProps) => {
     const {
@@ -15,11 +18,17 @@ const PostsCard = async ({ post }: PostsCardProps) => {
         userId,
         id
     } = post;
-    console.log(post)
+
 
     const getLikes = await LikeStatus(id, userId)
-    console.log("like count",getLikes)
+    console.log("like count", getLikes)
 
+    const currentUserInfo = await auth.api.getSession({
+        headers: await headers()
+    })
+
+    const currentUser = currentUserInfo?.user
+    console.log( currentUser,'user')
 
     return (
         <Card className="w-full max-w-155 mx-auto overflow-hidden rounded-lg sm:rounded-2xl border-x-0 sm:border border-gray-200 bg-white shadow-none transition-colors hover:bg-gray-50/30">
@@ -52,11 +61,12 @@ const PostsCard = async ({ post }: PostsCardProps) => {
             {/* Actions */}
             <PostCardFooter
                 likesCount={getLikes.likesCount}
-                postId = {id}
+                postId={id}
                 media={media}
                 title={title}
                 user={user}
                 createdAt={createdAt}
+                currentUser ={currentUser}
             />
         </Card>
     );

@@ -8,45 +8,56 @@ export const CreateComment = async (
     content: string
 ) => {
     try {
+        console.log("BASE URL:", baseUrl);
+        console.log("POST ID:", postId);
+        console.log("USER ID:", userId);
+        console.log("CONTENT:", content);
+
         const response = await fetch(
             `${baseUrl}/api/comments`,
             {
-                method: 'POST',
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
                     postId,
                     userId,
                     content,
                 }),
+                cache: "no-store",
             }
         );
 
-        if (!response.ok) {
-            console.error(
-                'Failed to create comment:',
-                response.status
-            );
+        console.log("RESPONSE STATUS:", response.status);
 
+        const data = await response.json();
+
+        console.log("RESPONSE DATA:", data);
+
+        if (!response.ok) {
             return {
                 success: false,
                 comment: null,
+                message: data.message ?? "Failed to create comment",
             };
         }
-
-        const data = await response.json();
 
         return {
             success: data.success,
             comment: data.comment ?? null,
+            message: data.message,
         };
     } catch (error) {
-        console.error('Error creating comment:', error);
+        console.error("========== CREATE COMMENT ERROR ==========");
+        console.error(error);
 
         return {
             success: false,
             comment: null,
+            message: error instanceof Error
+                ? error.message
+                : "Something went wrong",
         };
     }
 };

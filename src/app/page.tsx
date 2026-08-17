@@ -1,6 +1,5 @@
 import PostsCard from "@/components/shared/PostsCard";
 import { getAllPosts } from "@/services/fetchAllPost";
-import { LikeStatus } from "@/services/getAllLikeAtOnePost";
 import { Post } from "@/types/post";
 
 const HomePage = async () => {

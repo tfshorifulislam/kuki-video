@@ -1,7 +1,6 @@
 
 import { PostCardFooterProps } from "@/types/post";
 import { Bookmark, Heart, Share2 } from "lucide-react";
-import CommentDrawer from "./CommentBox";
 import CommentModal from "./CommentBox";
 
 const PostCardFooter = ({
@@ -16,7 +15,8 @@ const PostCardFooter = ({
     title,
     media,
     createdAt,
-    user
+    user,
+    currentUser
 }: PostCardFooterProps) => {
 
 
@@ -38,6 +38,7 @@ const PostCardFooter = ({
                                 media={media}
                                 createdAt={createdAt}
                                 user={user}
+                                currentUser={currentUser}
                             />
                         </div>
                     </div>
