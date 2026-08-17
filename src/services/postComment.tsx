@@ -1,18 +1,14 @@
-'use server';
+"use server";
 
 const baseUrl = process.env.NEXT_PUBLIC_URL;
 
 export const CreateComment = async (
     postId: number,
     userId: string,
-    content: string
+    content: string,
+    parentId: number | null = null
 ) => {
     try {
-        console.log("BASE URL:", baseUrl);
-        console.log("POST ID:", postId);
-        console.log("USER ID:", userId);
-        console.log("CONTENT:", content);
-
         const response = await fetch(
             `${baseUrl}/api/comments`,
             {
@@ -24,40 +20,40 @@ export const CreateComment = async (
                     postId,
                     userId,
                     content,
+                    parentId,
                 }),
                 cache: "no-store",
             }
         );
 
-        console.log("RESPONSE STATUS:", response.status);
-
         const data = await response.json();
-
-        console.log("RESPONSE DATA:", data);
 
         if (!response.ok) {
             return {
                 success: false,
                 comment: null,
-                message: data.message ?? "Failed to create comment",
+                message:
+                    data.message ||
+                    "Failed to create comment.",
             };
         }
 
         return {
-            success: data.success,
-            comment: data.comment ?? null,
+            success: true,
+            comment: data.comment,
             message: data.message,
         };
+
     } catch (error) {
-        console.error("========== CREATE COMMENT ERROR ==========");
-        console.error(error);
+        console.error(
+            "Create comment error:",
+            error
+        );
 
         return {
             success: false,
             comment: null,
-            message: error instanceof Error
-                ? error.message
-                : "Something went wrong",
+            message: "Something went wrong.",
         };
     }
 };

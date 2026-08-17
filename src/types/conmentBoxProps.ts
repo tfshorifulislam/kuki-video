@@ -29,20 +29,31 @@ export interface CommentModalProps {
     setIsShareOpen: (value: boolean) => void;
 }
 
+export interface CommentUser {
+    id: string;
+    name: string;
+    email: string;
+    image?: string | null;
+}
+
+
 export interface Comment {
     id: number;
     content: string;
     postId: number;
     userId: string;
+
+    // null = main comment
+    // number = reply
+    parentId: number | null;
+
     createdAt: string;
 
-    user: {
-        id: string;
-        name: string;
-        image?: string | null;
-    };
+    user: CommentUser;
 
     post: {
         userId: string;
     };
+
+    replies: Comment[];
 }

@@ -14,6 +14,7 @@ import { CreateComment } from "@/services/postComment";
 import { GetPostComments } from "@/services/getCommnetsAtOnePost";
 import { CommentModalProps, Comment, } from "@/types/conmentBoxProps";
 import { Textarea } from "../ui/textarea";
+import CommentItem from "./CommentItem";
 
 
 const CommentModal = ({
@@ -32,6 +33,43 @@ const CommentModal = ({
 }: CommentModalProps) => {
     const [comments, setComments] = useState<Comment[]>([]);
     const [commentText, setCommentText] = useState("");
+
+    const [replyTo, setReplyTo] = useState<Comment | null>(null);
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const addReplyToComment = (
+        comments: Comment[],
+        parentId: number,
+        newReply: Comment
+    ): Comment[] => {
+        return comments.map((comment) => {
+            // Direct parent found
+            if (comment.id === parentId) {
+                return {
+                    ...comment,
+                    replies: [
+                        ...(comment.replies ?? []),
+                        newReply,
+                    ],
+                };
+            }
+
+            // Search inside nested replies
+            if (comment.replies?.length) {
+                return {
+                    ...comment,
+                    replies: addReplyToComment(
+                        comment.replies,
+                        parentId,
+                        newReply
+                    ),
+                };
+            }
+
+            return comment;
+        });
+    };
 
     useEffect(() => {
         const loadComments = async () => {
@@ -56,19 +94,51 @@ const CommentModal = ({
             return;
         }
 
-        const result = await CreateComment(
-            postId,
-            currentUser.id,
-            commentText.trim()
-        );
+        if (isSubmitting) return;
 
-        if (!result.success || !result.comment) {
-            console.error("COMMENT FAILED:", result.message);
-            return;
+        setIsSubmitting(true);
+
+        try {
+            const result = await CreateComment(
+                postId,
+                currentUser.id,
+                commentText.trim(),
+                replyTo?.id ?? null
+            );
+
+            if (!result.success || !result.comment) {
+                console.error(
+                    "COMMENT FAILED:",
+                    result.message
+                );
+                return;
+            }
+
+            // Normal comment
+            if (!replyTo) {
+                setComments((prev) => [
+                    result.comment,
+                    ...prev,
+                ]);
+            }
+
+            // Reply
+            else {
+                setComments((prev) =>
+                    addReplyToComment(
+                        prev,
+                        replyTo.id,
+                        result.comment
+                    )
+                );
+            }
+
+            setCommentText("");
+            setReplyTo(null);
+
+        } finally {
+            setIsSubmitting(false);
         }
-        setComments((prev) => [result.comment, ...prev]);
-
-        setCommentText("");
     };
 
     const mediaUrl = media?.[0]?.url;
@@ -175,50 +245,15 @@ const CommentModal = ({
                         )}
 
                         <hr className="border-gray-100 my-1" />
-
                         {comments.map((comment) => (
-                            <div
+                            <CommentItem
                                 key={comment.id}
-                                className="flex items-start gap-3 text-xs"
-                            >
-
-                                <Avatar className="h-7 w-7 shrink-0">
-                                    <AvatarImage
-                                        src={comment.user?.image ?? undefined}
-                                        alt={comment.user?.name || "User"}
-                                    />
-
-                                    <AvatarFallback>
-                                        {comment.user?.name?.[0] || "U"}
-                                    </AvatarFallback>
-                                </Avatar>
-
-                                <div className="flex-1 space-y-1">
-
-                                    <p className="text-gray-900 text-xs">
-                                        <span className="font-semibold mr-2">
-                                            {comment.user?.name}
-                                        </span>
-
-                                        {comment.userId === comment.post.userId && (
-                                            <span className="text-[10px] text-gray-400 font-medium mr-2">
-                                                Author
-                                            </span>
-                                        )}
-
-                                        {comment.content}
-                                    </p>
-
-                                    <div className="text-[10px] text-gray-400">
-                                        {new Date(comment.createdAt).toLocaleDateString()}
-                                    </div>
-
-                                </div>
-
-                                <button className="text-gray-400 hover:text-red-500">
-                                    <Heart className="h-3.5 w-3.5" />
-                                </button>
-                            </div>
+                                comment={comment}
+                                onReply={(comment) => {
+                                    setReplyTo(comment);
+                                    setCommentText("");
+                                }}
+                            />
                         ))}
                     </div>
 
@@ -262,12 +297,42 @@ const CommentModal = ({
 
 
                     <div className="px-4 mb-5 py-3 border-t border-gray-100 bg-white shrink-0">
+
+                        {replyTo && (
+                            <div className="flex items-center justify-between mb-2 px-3 py-2 bg-gray-50 rounded-lg">
+
+                                <p className="text-[11px] text-gray-500">
+                                    Replying to{" "}
+                                    <span className="font-semibold text-gray-800">
+                                        {replyTo.user.name}
+                                    </span>
+                                </p>
+
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setReplyTo(null);
+                                        setCommentText("");
+                                    }}
+                                    className="text-gray-500 hover:text-black"
+                                >
+                                    <X className="h-3.5 w-3.5" />
+                                </button>
+
+                            </div>
+                        )}
+
+
                         <form onSubmit={handleComment} className="flex items-center gap-3">
                             <button type="button" className="text-gray-800 hover:text-gray-600 cursor-pointer">
                                 <Smile className="h-6 w-6" />
                             </button>
                             <Textarea
-                                placeholder="Write a comment..."
+                                placeholder={
+                                    replyTo
+                                        ? `Reply to ${replyTo.user.name}...`
+                                        : "Write a comment..."
+                                }
                                 value={commentText}
                                 onChange={(e) => setCommentText(e.target.value)}
                                 className="w-full min-h-10 max-h-24 border  resize-none shadow-none bg-transparent text-xs text-gray-900 placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0"
