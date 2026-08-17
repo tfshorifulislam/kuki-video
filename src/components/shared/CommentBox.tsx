@@ -12,10 +12,7 @@ import {
 import Image from "next/image";
 import { CreateComment } from "@/services/postComment";
 import { GetPostComments } from "@/services/getCommnetsAtOnePost";
-import {
-    CommentModalProps,
-    Comment,
-} from "@/types/conmentBoxProps";
+import { CommentModalProps, Comment, } from "@/types/conmentBoxProps";
 
 
 const CommentModal = ({
@@ -45,7 +42,9 @@ const CommentModal = ({
     }, [postId]);
 
 
-    const handleComment = async () => {
+    const handleComment = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
         if (!commentText.trim()) return;
 
         if (!currentUser?.id) {
@@ -59,19 +58,13 @@ const CommentModal = ({
             commentText.trim()
         );
 
-        console.log("RESULT:", result);
-
-        if (result.success) {
-            setCommentText("");
-
-            if (result.comment) {
-                setComments((prev) => [result.comment, ...prev]);
-            }
-
-            console.log("Comment added:", result.comment);
-        } else {
+        if (!result.success || !result.comment) {
             console.error("COMMENT FAILED:", result.message);
+            return;
         }
+        setComments((prev) => [result.comment, ...prev]);
+
+        setCommentText("");
     };
 
     const mediaUrl = media?.[0]?.url;
@@ -88,13 +81,13 @@ const CommentModal = ({
                 </span>
             </DialogTrigger>
 
-            {/* মডালের উইথ অনেক বাড়িয়ে ১২০০ পিক্সেল করা হয়েছে */}
+
             <DialogContent
                 style={{ maxWidth: "1200px" }}
                 className="w-[98vw] h-[90vh] max-h-212.5 p-0 bg-white rounded-xl overflow-hidden border-none shadow-2xl grid grid-cols-1 md:grid-cols-[1.6fr_1fr] [&>button]:hidden"
             >
 
-                {/* বাম দিক: ইনস্টাগ্রাম পোস্ট ইমেজ / মিডিয়া ভিউ */}
+
                 <div className="w-full h-full bg-black flex items-center justify-center overflow-hidden relative">
                     {mediaUrl ? (
                         <Image
