@@ -8,6 +8,7 @@ import { Post } from "@/types/post";
 const HomePage = async () => {
 
     const getPost = await getAllPosts();
+    
 
     const posts: Post[] =
         getPost?.data ?? [];
