@@ -18,10 +18,10 @@ import { usePathname } from "next/navigation";
 
 const menu_items = [
     { title: "Home", url: "/", icon: Home },
-    { title: "Videos", url: "/videos", icon: Video },
+    // { title: "Videos", url: "/videos", icon: Video },
     { title: "Post", url: "/share-content", icon: PlusCircle },
-    { title: "Profile", url: "/profile", icon: User },
-    { title: "Settings", url: "/settings", icon: Settings },
+    // { title: "Profile", url: "/profile", icon: User },
+    // { title: "Settings", url: "/settings", icon: Settings },
 ];
 
 export function AppSidebar() {
