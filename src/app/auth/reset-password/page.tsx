@@ -1,10 +1,17 @@
+import { Suspense } from "react";
 import ResetPasswordPage from "@/components/shared/ResetPasswordCard";
 
 const ResetPassword = () => {
     return (
-        <div>
+        <Suspense
+            fallback={
+                <div className="flex min-h-screen items-center justify-center">
+                    Loading...
+                </div>
+            }
+        >
             <ResetPasswordPage />
-        </div>
+        </Suspense>
     );
 };
 

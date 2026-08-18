@@ -1,4 +1,5 @@
 import { Media } from "./media";
+import type { User } from "./user";
 
 export interface CommentModalProps {
     postId: number;
@@ -7,17 +8,8 @@ export interface CommentModalProps {
     media?: Media[];
     createdAt?: string | Date;
 
-    user?: {
-        id: string;
-        name?: string;
-        image?: string | null;
-    };
-
-    currentUser?: {
-        id: string;
-        name?: string;
-        image?: string | null;
-    };
+    user?: User | null;
+    currentUser?: User | null;
 
     handleLike: () => void;
     likesCount: number;
@@ -35,7 +27,6 @@ export interface CommentUser {
     email: string;
     image?: string | null;
 }
-
 
 export interface Comment {
     id: number;

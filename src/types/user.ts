@@ -6,8 +6,9 @@ export interface Props {
 export interface User {
     id: string;
     name?: string | null;
-    email?: string;
-    emailVerified?: boolean;
     image?: string | null;
-    createdAt?: string;
+    email?: string | null;
+    emailVerified?: boolean;
+    createdAt?: Date;
+    updatedAt?: Date;
 }

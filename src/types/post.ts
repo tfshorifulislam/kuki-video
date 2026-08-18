@@ -44,24 +44,15 @@ export interface PostCardFooterProps {
     isLiked?: boolean;
     isSaved?: boolean;
 
-    currentUser?: {
-        id: string;
-        name?: string;
-        image?: string | null;
-    };
+    currentUser?: User | null;
 
-    user?: {
-        id: string;
-        name?: string;
-        image?: string | null;
-    };
+    user?: User | null;
 
     onLike?: () => void;
     onComment?: () => void;
     onShare?: () => void;
     onSave?: () => void;
 }
-
 
 export interface CreatePostPayload {
     title?: string;
