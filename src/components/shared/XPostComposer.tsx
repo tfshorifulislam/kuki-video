@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 
 export default function XPostComposer() {
     const router = useRouter();
-
     const handleOpenComposer = () => {
         router.push("/share-content");
     };
