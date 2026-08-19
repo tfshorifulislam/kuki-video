@@ -13,7 +13,7 @@ import {
     SidebarGroupContent,
 } from "@/components/ui/sidebar";
 import { authClient } from "@/lib/auth-client";
-import { Home, Settings, User, PlaySquare, LogOut, PlusCircle } from "lucide-react";
+import { Home, Settings, User, PlaySquare, LogOut, PlusCircle, BookOpen } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -38,11 +38,11 @@ export function AppSidebar() {
             <SidebarHeader className="p-4.5">
                 <Link href="/" className="flex items-center gap-3 font-semibold text-sidebar-foreground">
                     <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm shrink-0">
-                        <PlaySquare className="h-5 w-5" />
+                        <BookOpen className="h-5 w-5" />
                     </div>
                     <div className="flex flex-col leading-none group-data-[collapsible=icon]:hidden">
-                        <span className="font-bold tracking-tight text-base">StreamApp</span>
-                        <span className="text-xs text-muted-foreground font-normal mt-0.5">Video Sharing</span>
+                        <span className="font-bold tracking-tight text-base">Blog Space</span>
+                        <span className="text-xs text-muted-foreground font-normal mt-0.5">Publish & Read</span>
                     </div>
                 </Link>
             </SidebarHeader>
@@ -66,8 +66,8 @@ export function AppSidebar() {
                                             tooltip={item.title}
                                             render={<Link href={item.url} />}
                                             className={`flex items-center gap-3.5 rounded-xl px-3.5 py-3 h-auto transition-all ${isActive
-                                                    ? "font-semibold text-primary bg-primary/10 shadow-xs"
-                                                    : "font-medium text-muted-foreground hover:bg-accent hover:text-foreground"
+                                                ? "font-semibold text-primary bg-primary/10 shadow-xs"
+                                                : "font-medium text-muted-foreground hover:bg-accent hover:text-foreground"
                                                 }`}
                                         >
                                             <Icon className="h-5 w-5 shrink-0" strokeWidth={isActive ? 2.5 : 1.75} />
