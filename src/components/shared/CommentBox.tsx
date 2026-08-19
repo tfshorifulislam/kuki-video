@@ -1,14 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { MessageCircle } from "lucide-react";
+import { MessageSquare } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { CreateComment } from "@/services/postComment";
 import { GetPostComments } from "@/services/getCommnetsAtOnePost";
 import { CommentModalProps, Comment } from "@/types/conmentBoxProps";
 
 import CommentItem from "./CommentItem";
-import PostMedia from "./PostMedia";
 import CommentModalHeader from "./CommentModalHeader";
 import PostCaption from "./PostCaption";
 import CommentActions from "./CommentActions";
@@ -17,7 +16,6 @@ import CommentInputForm from "./CommentInputForm";
 const CommentModal = ({
     postId,
     title,
-    media,
     createdAt,
     user,
     currentUser,
@@ -104,36 +102,34 @@ const CommentModal = ({
     return (
         <Dialog>
             <DialogTrigger>
-                <span className="flex items-center gap-1.5 px-3 py-2 rounded-md transition-colors text-xs font-medium text-gray-600 cursor-pointer">
-                    <MessageCircle className="h-5 w-5 text-gray-500" />
+                <button
+                    type="button"
+                    className="flex items-center gap-1.5 text-xs font-medium text-gray-600 transition-colors hover:text-blue-600 cursor-pointer"
+                >
+                    <MessageSquare className="h-4 w-4" />
                     <span>{comments.length}</span>
-                </span>
+                </button>
             </DialogTrigger>
 
             <DialogContent
-                style={{ maxWidth: "1200px" }}
-                className="w-[98vw] h-[90vh] max-h-212.5 p-0 bg-white rounded-xl overflow-hidden border-none shadow-2xl grid grid-cols-1 md:grid-cols-[1.6fr_1fr] [&>button]:hidden"
+                className="w-[95vw] max-w-xl max-h-[85vh] p-0 bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-2xl flex flex-col"
             >
-
-                <div className="w-full h-full bg-black flex items-center justify-center overflow-hidden relative">
-                    {media && media.length > 0 ? (
-                        <PostMedia media={media} title={title} />
-                    ) : (
-                        <div className="text-white text-sm p-6 text-center">
-                            {title || "No Media Available"}
-                        </div>
-                    )}
+                {/* Modal Header (Author Info) */}
+                <div className="px-5 py-4 border-b border-gray-100 bg-gray-50/50">
+                    <CommentModalHeader user={user} />
                 </div>
 
-                <div className="w-full bg-white flex flex-col h-full relative border-l border-gray-100 overflow-hidden">
+                {/* Main Scrollable Comments & Post Title Area */}
+                <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4 bg-white flex flex-col">
+                    <PostCaption user={user} title={title} createdAt={createdAt} />
+                    <hr className="border-gray-100 my-1" />
 
-                    <CommentModalHeader user={user} />
-
-                    <div className="flex-1 overflow-y-auto px-4 py-3 space-y-4 bg-white flex flex-col">
-                        <PostCaption user={user} title={title} createdAt={createdAt} />
-                        <hr className="border-gray-100 my-1" />
-
-                        {comments.map((comment) => (
+                    {comments.length === 0 ? (
+                        <div className="py-8 text-center text-sm text-gray-500">
+                            No responses yet. Be the first to share your thoughts!
+                        </div>
+                    ) : (
+                        comments.map((comment) => (
                             <CommentItem
                                 key={comment.id}
                                 comment={comment}
@@ -143,9 +139,12 @@ const CommentModal = ({
                                     setCommentText("");
                                 }}
                             />
-                        ))}
-                    </div>
+                        ))
+                    )}
+                </div>
 
+                {/* Actions (Like, Save, Share count/triggers inside modal if needed) */}
+                <div className="border-t border-gray-100 px-5 py-2.5 bg-gray-50/30">
                     <CommentActions
                         isLiked={isLiked}
                         isSaved={isSaved}
@@ -154,7 +153,10 @@ const CommentModal = ({
                         handleSave={handleSave}
                         setIsShareOpen={setIsShareOpen}
                     />
+                </div>
 
+                {/* Comment Input Box */}
+                <div className="p-4 border-t border-gray-100 bg-white">
                     <CommentInputForm
                         commentText={commentText}
                         setCommentText={setCommentText}
