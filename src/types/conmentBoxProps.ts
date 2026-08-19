@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import { Media } from "./media";
 import type { User } from "./user";
 
@@ -19,6 +20,7 @@ export interface CommentModalProps {
     isSaved: boolean;
 
     setIsShareOpen: (value: boolean) => void;
+    children?: ReactNode;
 }
 
 export interface CommentUser {

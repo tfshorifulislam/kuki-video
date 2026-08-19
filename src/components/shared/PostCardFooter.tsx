@@ -2,13 +2,13 @@
 
 import { PostCardFooterProps } from "@/types/post";
 import { Bookmark, Heart, MessageSquare, Share2 } from "lucide-react";
-import CommentModal from "./CommentBox";
 import { ToggleLike } from "@/services/toggleLike";
 import { useEffect, useState } from "react";
 import { LikeStatus } from "@/services/getAllLikeAtOnePost";
 import { SaveStatus } from "@/services/saveStatus";
 import { ToggleSave } from "@/services/toggleSave";
 import ShareModal from "./ShareModal";
+import CommentModal from "./CommentBox";
 
 const PostCardFooter = ({
     likesCount: initialLikesCount = 0,
