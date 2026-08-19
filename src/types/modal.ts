@@ -1,4 +1,4 @@
-import { MediaFile } from "./media"; 
+import { MediaFile } from "./media";
 export interface CreatePostModalProps {
     user?: {
         id: string;
@@ -15,4 +15,6 @@ export interface CreatePostModalProps {
     onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onRemoveFile: (index: number) => void;
     onCancel: () => void;
+    onDescriptionChange: (value: string) => void;
+    description: string;
 }

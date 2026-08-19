@@ -10,22 +10,20 @@ import CreatePostModal from "@/components/shared/CreatePostModal";
 import { MediaFile } from "@/types/media";
 
 export default function ShareContentPage() {
-
     const [mediaList, setMediaList] = useState<MediaFile[]>([]);
     const [title, setTitle] = useState("");
+    const [description, setDescription] = useState(""); // নতুন ডেসক্রিপশন স্টেট
     const [isUploading, setIsUploading] = useState(false);
 
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const router = useRouter();
-    const { data: session } = useSession()
-    const user = session?.user;
-    const userId = session?.user?.id as string
-
+    const { data: session } = useSession();
+    const userId = session?.user?.id as string;
 
     const handlePublish = async () => {
-        if (mediaList.length === 0 || !title.trim()) {
-            toast.error("Please provide a title and at least one file!");
+        if (!title.trim()) {
+            toast.error("Please provide a title for your post!");
             return;
         }
 
@@ -37,40 +35,30 @@ export default function ShareContentPage() {
         setIsUploading(true);
 
         try {
-            const uploadPromises = mediaList.map(async (item) => {
-                const url = await uploadToCloudinary(item.file);
+            let media: { url: string; type: "image" | "video" }[] = [];
 
-                if (!url) {
-                    return null;
-                }
+            if (mediaList.length > 0) {
+                const uploadPromises = mediaList.map(async (item) => {
+                    const url = await uploadToCloudinary(item.file);
+                    if (!url) return null;
+                    return {
+                        url,
+                        type: item.isVideo ? "video" : "image",
+                    } as const;
+                });
 
-                return {
-                    url,
-                    type: item.isVideo ? "video" : "image",
-                };
-            });
-
-            const uploadedMedia = await Promise.all(uploadPromises);
-
-            const media = uploadedMedia.filter(
-                (item): item is {
-                    url: string;
-                    type: "image" | "video";
-                } => item !== null
-            );
-
-            if (media.length === 0) {
-                toast.error("File upload failed!");
-                return;
+                const uploadedMedia = await Promise.all(uploadPromises);
+                media = uploadedMedia.filter(
+                    (item): item is { url: string; type: "image" | "video" } => item !== null
+                );
             }
 
             const payload = {
                 title,
+                description,
                 media,
                 userId,
             };
-
-            console.log("PAYLOAD:", payload);
 
             const res = await createPostService(payload);
 
@@ -78,9 +66,7 @@ export default function ShareContentPage() {
                 toast.success("Post created successfully!");
                 router.push("/");
             } else {
-                toast.error(
-                    res.message || "There was a problem creating the post."
-                );
+                toast.error(res.message || "There was a problem creating the post.");
             }
         } catch (error) {
             console.error("Publish Error:", error);
@@ -90,13 +76,10 @@ export default function ShareContentPage() {
         }
     };
 
-
     const getVideoDuration = (file: File): Promise<number> => {
         return new Promise((resolve, reject) => {
             const video = document.createElement("video");
-
             video.preload = "metadata";
-
             const objectUrl = URL.createObjectURL(file);
             video.src = objectUrl;
 
@@ -112,42 +95,30 @@ export default function ShareContentPage() {
         });
     };
 
-
-
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = Array.from(e.target.files || []);
-
         if (!files.length) return;
 
         const availableSlots = 5 - mediaList.length;
-
         if (availableSlots <= 0) {
             toast.error("You can only upload up to 5 files.");
             return;
         }
 
         const filesToProcess = files.slice(0, availableSlots);
-
         const validFiles: MediaFile[] = [];
 
         for (const file of filesToProcess) {
-
             if (file.type.startsWith("video/")) {
                 try {
                     const duration = await getVideoDuration(file);
                     if (duration > 300) {
-                        toast.error(
-                            `"${file.name}" is longer than 5 minutes.`
-                        );
+                        toast.error(`"${file.name}" is longer than 5 minutes.`);
                         continue;
                     }
                 } catch (error) {
                     console.error("Video duration error:", error);
-
-                    toast.error(
-                        `Could not process "${file.name}".`
-                    );
-
+                    toast.error(`Could not process "${file.name}".`);
                     continue;
                 }
             }
@@ -160,10 +131,7 @@ export default function ShareContentPage() {
         }
 
         if (validFiles.length > 0) {
-            setMediaList((prev) => [
-                ...prev,
-                ...validFiles,
-            ]);
+            setMediaList((prev) => [...prev, ...validFiles]);
         }
 
         if (fileInputRef.current) {
@@ -181,19 +149,20 @@ export default function ShareContentPage() {
         });
     };
 
-
     const handleCancel = () => {
         router.back();
     };
 
     return (
         <CreatePostModal
-            user={user}
+            user={session?.user}
             mediaList={mediaList}
             title={title}
+            description={description}
             isUploading={isUploading}
             fileInputRef={fileInputRef}
             onTitleChange={setTitle}
+            onDescriptionChange={setDescription}
             onPublish={handlePublish}
             onFileChange={handleFileChange}
             onRemoveFile={handleRemoveFile}
