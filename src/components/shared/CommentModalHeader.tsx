@@ -21,15 +21,6 @@ const CommentModalHeader = ({ user }: Props) => {
                     <span className="text-xs text-blue-500 font-semibold cursor-pointer">Follow</span>
                 </div>
             </div>
-
-            <div className="flex items-center gap-2">
-                <button className="text-gray-600 hover:text-black cursor-pointer">
-                    <MoreHorizontal className="h-4 w-4" />
-                </button>
-                <DialogClose className="rounded-full p-1.5 hover:bg-gray-100 text-gray-600 transition-colors cursor-pointer">
-                    <X className="h-4 w-4" />
-                </DialogClose>
-            </div>
         </div>
     );
 };

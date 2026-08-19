@@ -8,6 +8,7 @@ interface Props {
   replyTo: Comment | null;
   setReplyTo: (comment: Comment | null) => void;
   handleComment: (e: React.FormEvent<HTMLFormElement>) => void;
+  isSubmitting?: boolean;
 }
 
 const CommentInputForm = ({
