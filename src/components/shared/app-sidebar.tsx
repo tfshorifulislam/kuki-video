@@ -18,10 +18,10 @@ import { usePathname } from "next/navigation";
 
 const menu_items = [
     { title: "Home", url: "/", icon: Home },
-    // { title: "Videos", url: "/videos", icon: Video }, 
+    { title: "Videos", url: "/videos", icon: Video }, 
     { title: "Post", url: "/share-content", icon: PlusCircle },
-    // { title: "Profile", url: "/profile", icon: User },
-    // { title: "Settings", url: "/settings", icon: Settings },
+    { title: "Profile", url: "/profile", icon: User },
+    { title: "Settings", url: "/settings", icon: Settings },
 ];
 
 export function AppSidebar() {
@@ -30,7 +30,7 @@ export function AppSidebar() {
     return (
         <Sidebar 
             collapsible="icon" 
-            className="sticky top-0 h-screen border-r border-border bg-background"
+            className="sticky top-0 h-screen border-none"
         >
             <SidebarHeader className="p-4">
                 <Link href="/" className="flex items-center gap-3 font-semibold text-lg text-sidebar-foreground">

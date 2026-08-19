@@ -11,7 +11,7 @@ import {
     CarouselPrevious,
 } from "@/components/ui/carousel";
 import { PostMediaProps } from "@/types/post";
-import { useVideoVolume } from "./VideoVolumeProvider"; 
+import { useVideoVolume } from "./VideoVolumeProvider";
 import VideoPlayer from "./VideoPlayer";
 
 const PostMedia = ({ media, title }: PostMediaProps) => {
@@ -31,12 +31,12 @@ const PostMedia = ({ media, title }: PostMediaProps) => {
     if (!media?.length) return null;
 
     return (
-        <div className="relative w-full overflow-hidden rounded-lg bg-gray-100 mb-4">
+        <div className="w-full">
             <Carousel setApi={setCarouselApi} className="w-full" opts={{ loop: media.length > 1 }}>
                 <CarouselContent>
                     {media.map((item, index) => (
                         <CarouselItem key={`${item.url}-${index}`} className="pl-0">
-                            <div className="relative aspect-[21/9] w-full">
+                            <div className="relative aspect-21/15 w-full">
                                 {item.type === "video" ? (
                                     <VideoPlayer ref={videoRef} url={item.url} volume={volume} />
                                 ) : (

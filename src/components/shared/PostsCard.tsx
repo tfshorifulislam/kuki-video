@@ -28,10 +28,10 @@ const PostsCard = async ({ post }: PostsCardProps) => {
     const currentUser = currentUserInfo?.user;
 
     return (
-        <Card className="w-full ">
+        <div className="w-full ">
             
             {/* Author & Meta Header */}
-            <div className="p-5 pb-3">
+            <div>
                 <PostHeader
                     user={user}
                     createdAt={createdAt}
@@ -39,7 +39,7 @@ const PostsCard = async ({ post }: PostsCardProps) => {
             </div>
 
             {/* Blog Content / Title & Excerpt */}
-            <div className="px-5 pb-4">
+            <div>
                 <Link href={`/blog/${id}`} className="group">
                     {title && (
                         <h2 className="mb-2 text-xl font-bold tracking-tight text-gray-900 group-hover:text-blue-600 transition-colors">
@@ -57,7 +57,7 @@ const PostsCard = async ({ post }: PostsCardProps) => {
 
             {/* Featured Blog Image/Media */}
             {media && media.length > 0 && (
-                <div className="px-5 pb-4">
+                <div>
                     <div className="overflow-hidden rounded-xl border border-gray-100">
                         <PostMedia media={media} title={title} />
                     </div>
@@ -76,7 +76,7 @@ const PostsCard = async ({ post }: PostsCardProps) => {
                     currentUser={currentUser}
                 />
             </div>
-        </Card>
+        </div>
     );
 };
 
