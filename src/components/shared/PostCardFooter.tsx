@@ -10,7 +10,7 @@ import { ToggleSave } from "@/services/toggleSave";
 import ShareModal from "./ShareModal";
 import CommentModal from "./CommentBox";
 
-// ডাইনামিক রিডিং টাইম ক্যালকুলেট করার ফাংশন (প্রতি মিনিটে গড়ে ২০০ শব্দ ধরা হয়েছে)
+
 const calculateReadingTime = (text?: string) => {
     if (!text) return "1 min read";
     const wordsPerMinute = 200;
@@ -115,7 +115,7 @@ const PostCardFooter = ({
                 )}
             </div>
 
-            {/* Bookmark & Dynamic Read Time */}
+          
             <div className="flex items-center gap-2">
                 <span className="text-[11px] text-gray-400">
                     {calculateReadingTime(title)}

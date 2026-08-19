@@ -29,7 +29,7 @@ const PostHeader = ({ user, createdAt }: PostHeaderProps) => {
                     {user?.name}
                 </span>
                 <span className="text-[11px] text-gray-500">
-                    {createdAt ? format(new Date(createdAt), "MMM d") : ""} (3 min read)
+                    {createdAt ? format(new Date(createdAt), "MMM d") : ""}
                 </span>
             </div>
         </div>
