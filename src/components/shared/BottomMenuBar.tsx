@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, PlusCircle, Settings, User } from "lucide-react";
+import { Home, Search, PlusCircle, Bell, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -9,18 +9,18 @@ const BottomMenuBar = () => {
 
   const menu_items = [
     { title: "Home", url: "/", icon: Home },
+    { title: "Explore", url: "/explore", icon: Search },
     { title: "Post", url: "/share-content", icon: PlusCircle, isPost: true },
+    { title: "Notifications", url: "/notifications", icon: Bell },
     { title: "Profile", url: "/profile", icon: User },
-    { title: "Settings", url: "/settings", icon: Settings },
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 flex h-16 w-full items-center justify-around border-t border-border/40 bg-background/80 px-4 backdrop-blur-xl md:hidden">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 flex h-16 w-full items-center justify-around border-t border-border/40 bg-background/80 px-2 backdrop-blur-xl md:hidden">
       {menu_items.map((item) => {
         const isActive = pathname === item.url;
         const Icon = item.icon;
 
-        // স্পেশাল পোস্ট বাটন ডিজাইন (Center Action Button)
         if (item.isPost) {
           return (
             <Link
@@ -37,7 +37,7 @@ const BottomMenuBar = () => {
           <Link
             key={item.title}
             href={item.url}
-            className={`flex flex-col items-center justify-center gap-1 transition-all duration-200 active:scale-95 ${
+            className={`flex flex-col items-center justify-center gap-1 transition-all duration-200 active:scale-95 px-2 ${
               isActive ? "text-foreground font-semibold" : "text-muted-foreground hover:text-foreground/80"
             }`}
           >

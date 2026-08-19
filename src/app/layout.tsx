@@ -33,15 +33,15 @@ export default function RootLayout({
 
             <div className="mx-auto flex justify-center min-h-screen w-full max-w-7xl">
 
-              {/* Navigation Sidebar */}
+            
               <AppSidebar />
 
-              {/* Main Feed / Article Content Area */}
+              
               <main className="flex w-full min-w-0 max-w-3xl flex-1 flex-col  min-h-screen ">
                 {children}
               </main>
 
-              {/* Blog Right Sidebar (Trending Topics, Categories, Staff Picks) */}
+         
               <aside className="hidden xl:block w-80 xl:w-90 ">
                 <div className="sticky top-6 flex flex-col gap-6">
 
