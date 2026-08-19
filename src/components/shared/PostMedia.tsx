@@ -31,12 +31,13 @@ const PostMedia = ({ media, title }: PostMediaProps) => {
     if (!media?.length) return null;
 
     return (
-        <div className="w-full">
+        <div className="relative w-full overflow-hidden rounded-t-xl sm:rounded-xl bg-gray-900 mb-3">
             <Carousel setApi={setCarouselApi} className="w-full" opts={{ loop: media.length > 1 }}>
                 <CarouselContent>
                     {media.map((item, index) => (
                         <CarouselItem key={`${item.url}-${index}`} className="pl-0">
-                            <div className="relative aspect-21/15 w-full">
+                           
+                            <div className="relative aspect-video w-full bg-gray-100">
                                 {item.type === "video" ? (
                                     <VideoPlayer ref={videoRef} url={item.url} volume={volume} />
                                 ) : (
@@ -46,6 +47,7 @@ const PostMedia = ({ media, title }: PostMediaProps) => {
                                         fill
                                         sizes="(max-width: 768px) 100vw, 700px"
                                         className="object-cover"
+                                        priority={index === 0}
                                     />
                                 )}
                             </div>
@@ -55,14 +57,15 @@ const PostMedia = ({ media, title }: PostMediaProps) => {
 
                 {media.length > 1 && (
                     <div className="hidden md:flex">
-                        <CarouselPrevious className="left-2 h-7 w-7 bg-white/80 text-black border shadow-sm hover:bg-white" />
-                        <CarouselNext className="right-2 h-7 w-7 bg-white/80 text-black border shadow-sm hover:bg-white" />
+                        <CarouselPrevious className="left-3 h-8 w-8 bg-white/80 text-black border-0 shadow-md hover:bg-white cursor-pointer" />
+                        <CarouselNext className="right-3 h-8 w-8 bg-white/80 text-black border-0 shadow-md hover:bg-white cursor-pointer" />
                     </div>
                 )}
             </Carousel>
 
+            {/* Slide Indicator Badge (DEV.to style) */}
             {media.length > 1 && (
-                <div className="absolute bottom-2 right-2 z-20 rounded bg-black/70 px-1.5 py-0.5 text-[10px] font-medium text-white">
+                <div className="absolute bottom-3 right-3 z-20 rounded-md bg-black/70 px-2 py-0.5 text-xs font-medium text-white backdrop-blur-sm">
                     {currentSlide + 1} / {media.length}
                 </div>
             )}
