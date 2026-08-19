@@ -6,8 +6,7 @@ import PostCardFooter from "./PostCardFooter";
 import { LikeStatus } from "@/services/getAllLikeAtOnePost";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-
-
+import Link from "next/link";
 
 const PostsCard = async ({ post }: PostsCardProps) => {
     const {
@@ -20,54 +19,63 @@ const PostsCard = async ({ post }: PostsCardProps) => {
         id
     } = post;
 
-
-    const getLikes = await LikeStatus(id, userId)
-    console.log("like count", getLikes)
+    const getLikes = await LikeStatus(id, userId);
 
     const currentUserInfo = await auth.api.getSession({
         headers: await headers()
-    })
+    });
 
-    const currentUser = currentUserInfo?.user
-    console.log(currentUser, 'user')
+    const currentUser = currentUserInfo?.user;
 
     return (
-        <Card className="w-full max-w-155 mx-auto overflow-hidden rounded-none bg-white transition-colors">
+        <Card className="w-full overflow-hidden rounded-2xl border border-gray-200/80 bg-white shadow-sm transition-all duration-200 hover:shadow-md">
+            
+            {/* Author & Meta Header */}
+            <div className="p-5 pb-3">
+                <PostHeader
+                    user={user}
+                    createdAt={createdAt}
+                />
+            </div>
 
-            <PostHeader
-                user={user}
-                createdAt={createdAt}
-            />
-
-
-            <div className="px-4 pb-3">
-                {title && (
-                    <h2 className="mb-1 text-[15px] font-semibold leading-6 text-gray-950">
-                        {title}
-                    </h2>
-                )}
+            {/* Blog Content / Title & Excerpt */}
+            <div className="px-5 pb-4">
+                <Link href={`/blog/${id}`} className="group">
+                    {title && (
+                        <h2 className="mb-2 text-xl font-bold tracking-tight text-gray-900 group-hover:text-blue-600 transition-colors">
+                            {title}
+                        </h2>
+                    )}
+                </Link>
 
                 {description && (
-                    <p className="whitespace-pre-wrap text-[15px] leading-6 text-gray-700">
+                    <p className="line-clamp-3 text-sm leading-relaxed text-gray-600">
                         {description}
                     </p>
                 )}
             </div>
 
-            <PostMedia
-                media={media}
-                title={title}
-            />
+            {/* Featured Blog Image/Media */}
+            {media && media.length > 0 && (
+                <div className="px-5 pb-4">
+                    <div className="overflow-hidden rounded-xl border border-gray-100">
+                        <PostMedia media={media} title={title} />
+                    </div>
+                </div>
+            )}
 
-            <PostCardFooter
-                likesCount={getLikes.likesCount}
-                postId={id}
-                media={media}
-                title={title}
-                user={user}
-                createdAt={createdAt}
-                currentUser={currentUser}
-            />
+            {/* Footer with Claps/Likes, Bookmarks, and Comments */}
+            <div className="border-t border-gray-100 bg-gray-50/50 px-5 py-3">
+                <PostCardFooter
+                    likesCount={getLikes.likesCount}
+                    postId={id}
+                    media={media}
+                    title={title}
+                    user={user}
+                    createdAt={createdAt}
+                    currentUser={currentUser}
+                />
+            </div>
         </Card>
     );
 };
