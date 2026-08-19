@@ -7,6 +7,7 @@ import { LikeStatus } from "@/services/getAllLikeAtOnePost";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import Link from "next/link";
+import PostTitleDescription from "./PostTitleDescription";
 
 const PostsCard = async ({ post }: PostsCardProps) => {
     const {
@@ -29,7 +30,7 @@ const PostsCard = async ({ post }: PostsCardProps) => {
 
     return (
         <div className="w-full ">
-            
+
             {/* Author & Meta Header */}
             <div>
                 <PostHeader
@@ -39,21 +40,9 @@ const PostsCard = async ({ post }: PostsCardProps) => {
             </div>
 
             {/* Blog Content / Title & Excerpt */}
-            <div>
-                <Link href={`/blog/${id}`} className="group">
-                    {title && (
-                        <h2 className="mb-2 text-xl font-bold tracking-tight text-gray-900 group-hover:text-blue-600 transition-colors">
-                            {title}
-                        </h2>
-                    )}
-                </Link>
-
-                {description && (
-                    <p className="line-clamp-3 text-sm leading-relaxed text-gray-600">
-                        {description}
-                    </p>
-                )}
-            </div>
+            <PostTitleDescription
+                title={title}
+                description={description} />
 
             {/* Featured Blog Image/Media */}
             {media && media.length > 0 && (
