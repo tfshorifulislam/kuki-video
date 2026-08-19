@@ -37,12 +37,12 @@ export default function RootLayout({
               <AppSidebar />
 
               {/* Main Feed / Article Content Area */}
-              <main className="flex w-full min-w-0 max-w-4xl flex-1 flex-col border-x border-gray-200 bg-white min-h-screen shadow-sm">
+              <main className="flex w-full min-w-0 max-w-3xl flex-1 flex-col  min-h-screen ">
                 {children}
               </main>
 
               {/* Blog Right Sidebar (Trending Topics, Categories, Staff Picks) */}
-              <aside className="hidden lg:block w-80 xl:w-96 px-6 py-6">
+              <aside className="hidden lg:block w-80 md:w-90 ">
                 <div className="sticky top-6 flex flex-col gap-6">
 
                   {/* Search / Discover Box */}

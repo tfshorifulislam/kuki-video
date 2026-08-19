@@ -8,7 +8,7 @@ const HomePage = async () => {
     const posts: Post[] = getPost?.data ?? [];
 
     return (
-        <main className="min-h-screen bg-gray-50/50 pb-12 pt-4">
+        <main className="min-h-screen pb-12 pt-4">
             <div className="mx-auto flex w-full max-w-3xl flex-col gap-5 px-4 sm:px-6">
 
                 {/* Blog Feed Header / Navigation Tabs (DEV.to style) */}

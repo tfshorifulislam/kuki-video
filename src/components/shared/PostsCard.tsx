@@ -28,7 +28,7 @@ const PostsCard = async ({ post }: PostsCardProps) => {
     const currentUser = currentUserInfo?.user;
 
     return (
-        <Card className="w-full overflow-hidden rounded-2xl border border-gray-200/80 bg-white shadow-sm transition-all duration-200 hover:shadow-md">
+        <Card className="w-full ">
             
             {/* Author & Meta Header */}
             <div className="p-5 pb-3">
