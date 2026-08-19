@@ -1,3 +1,5 @@
+"use client";
+
 import { Heart, Send, Bookmark } from "lucide-react";
 
 interface Props {
@@ -18,32 +20,21 @@ const CommentActions = ({
   setIsShareOpen,
 }: Props) => {
   return (
-    <div className="px-4 py-2.5 border-t border-gray-100 bg-white shrink-0 space-y-1.5">
+    <div className="px-4 pt-3 pb-1 bg-background">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <button
-            onClick={handleLike}
-            className="hover:opacity-75 transition-opacity cursor-pointer"
-          >
-            <Heart className={`h-5 w-5 ${isLiked ? "fill-black text-black" : "text-gray-800"}`} />
+          <button onClick={handleLike} className="hover:opacity-75 transition-opacity cursor-pointer">
+            <Heart className={`h-5 w-5 ${isLiked ? "fill-red-500 text-red-500" : "text-foreground"}`} />
           </button>
-          <button
-            type="button"
-            onClick={() => setIsShareOpen(true)}
-            className="hover:opacity-75 transition-opacity cursor-pointer text-gray-800"
-          >
+          <button onClick={() => setIsShareOpen(true)} className="hover:opacity-75 transition-opacity cursor-pointer text-foreground">
             <Send className="h-5 w-5" />
           </button>
         </div>
-        <button type="button" onClick={handleSave} className="group cursor-pointer">
-          <Bookmark
-            className={`h-5 w-5 md:h-6 md:w-6 transition-all duration-200 ${
-              isSaved ? "fill-black text-black" : "text-gray-700 group-hover:text-black"
-            }`}
-          />
+        <button onClick={handleSave} className="cursor-pointer">
+          <Bookmark className={`h-5 w-5 transition-transform active:scale-95 ${isSaved ? "fill-foreground text-foreground" : "text-foreground"}`} />
         </button>
       </div>
-      <div className="text-xs font-semibold text-gray-900">{likesCount} likes</div>
+      <div className="mt-1.5 text-xs font-semibold text-foreground">{likesCount} likes</div>
     </div>
   );
 };
