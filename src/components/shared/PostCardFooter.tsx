@@ -56,21 +56,21 @@ const PostCardFooter = ({
     };
 
     return (
-        <div className="flex items-center justify-between text-gray-600">
-            <div className="flex items-center gap-6">
+        <div className="flex items-center justify-between pt-3 mt-2 border-t border-gray-100 text-xs text-gray-600">
+            <div className="flex items-center gap-4">
                 
-                {/* Like / Appreciate Button */}
+                {/* Reactions / Likes */}
                 <button
                     type="button"
                     onClick={handleLike}
                     disabled={isLoadingLike}
-                    className="flex items-center gap-1.5 text-xs font-medium transition-colors hover:text-red-600 cursor-pointer"
+                    className="flex items-center gap-1.5 rounded-md px-2 py-1 bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer font-medium"
                 >
-                    <Heart className={`h-4 w-4 ${isLiked ? "fill-red-500 text-red-500" : ""}`} />
-                    <span>{likesCount}</span>
+                    <Heart className={`h-4 w-4 ${isLiked ? "fill-red-500 text-red-500" : "text-gray-500"}`} />
+                    <span>{likesCount} <span className="hidden sm:inline">reactions</span></span>
                 </button>
 
-                {/* Comments Modal Trigger */}
+                {/* Comments */}
                 <CommentModal
                     postId={postId}
                     commentsCount={commentsCount}
@@ -86,17 +86,17 @@ const PostCardFooter = ({
                     handleSave={handleSave}
                     setIsShareOpen={setIsShareOpen}
                 >
-                    <div className="flex items-center gap-1.5 text-xs font-medium transition-colors hover:text-blue-600 cursor-pointer">
-                        <MessageSquare className="h-4 w-4" />
-                        <span>{commentsCount}</span>
+                    <div className="flex items-center gap-1.5 rounded-md px-2 py-1 bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer font-medium">
+                        <MessageSquare className="h-4 w-4 text-gray-500" />
+                        <span>{commentsCount} <span className="hidden sm:inline">comments</span></span>
                     </div>
                 </CommentModal>
 
-                {/* Share Button */}
+                {/* Share */}
                 <button
                     type="button"
                     onClick={() => setIsShareOpen(true)}
-                    className="flex items-center gap-1.5 text-xs font-medium transition-colors hover:text-gray-900 cursor-pointer"
+                    className="flex items-center gap-1 p-1 hover:bg-gray-100 rounded transition-colors cursor-pointer text-gray-500 hover:text-gray-900"
                 >
                     <Share2 className="h-4 w-4" />
                 </button>
@@ -107,13 +107,16 @@ const PostCardFooter = ({
             </div>
 
             {/* Bookmark / Read Later */}
-            <button
-                type="button"
-                onClick={handleSave}
-                className="text-gray-500 transition-colors hover:text-gray-900 cursor-pointer"
-            >
-                <Bookmark className={`h-4 w-4 ${isSaved ? "fill-gray-900 text-gray-900" : ""}`} />
-            </button>
+            <div className="flex items-center gap-2">
+                <span className="text-[11px] text-gray-400">2 min read</span>
+                <button
+                    type="button"
+                    onClick={handleSave}
+                    className="p-1.5 rounded-md bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer text-gray-600"
+                >
+                    <Bookmark className={`h-4 w-4 ${isSaved ? "fill-gray-900 text-gray-900" : ""}`} />
+                </button>
+            </div>
         </div>
     );
 };
