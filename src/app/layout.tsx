@@ -42,7 +42,7 @@ export default function RootLayout({
               </main>
 
               {/* Blog Right Sidebar (Trending Topics, Categories, Staff Picks) */}
-              <aside className="hidden lg:block w-80 md:w-90 ">
+              <aside className="hidden xl:block w-80 xl:w-90 ">
                 <div className="sticky top-6 flex flex-col gap-6">
 
                   {/* Search / Discover Box */}
