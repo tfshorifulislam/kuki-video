@@ -18,40 +18,31 @@ const CommentItem = ({
     depth = 0,
 }: CommentItemProps) => {
     const [showReplies, setShowReplies] = useState(false);
-
     const repliesCount = comment.replies?.length ?? 0;
-    const isReply = depth > 0;
 
     return (
-        <div className="w-full min-w-0 space-y-2">
-            {/* Current Comment Row */}
+        <div className="w-full space-y-2">
             <CommentContent
                 comment={comment}
                 onReply={onReply}
                 currentUserId={currentUserId}
-                isReply={isReply}
+                isReply={depth > 0}
             />
 
-            {/* View Replies Toggle */}
             {repliesCount > 0 && (
-                <div className="pl-10">
+                <div className="pl-9">
                     <button
                         type="button"
                         onClick={() => setShowReplies((prev) => !prev)}
-                        className="text-[11px] font-semibold text-gray-400 hover:text-gray-800 transition-colors"
+                        className="text-[11px] font-semibold text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
                     >
-                        {showReplies
-                            ? "Hide replies"
-                            : `View ${repliesCount} ${
-                                  repliesCount === 1 ? "reply" : "replies"
-                              }`}
+                        {showReplies ? "Hide replies" : `View ${repliesCount} ${repliesCount === 1 ? "reply" : "replies"}`}
                     </button>
                 </div>
             )}
 
-            {/* Nested Replies List */}
             {showReplies && repliesCount > 0 && (
-                <div className="ml-3 pl-3 border-l border-gray-100 space-y-3 max-w-full">
+                <div className="ml-3 pl-3 border-l border-border/60 space-y-3">
                     {comment.replies?.map((reply) => (
                         <CommentItem
                             key={reply.id}
