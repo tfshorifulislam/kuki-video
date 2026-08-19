@@ -8,6 +8,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/shared/app-sidebar";
 import BottomMenuBar from "@/components/shared/BottomMenuBar";
 import { VideoVolumeProvider } from "@/components/shared/VideoVolumeProvider";
+import RightSideBar from "@/components/RightSideBar.tsx/RightSideBar";
 
 const inter = Inter({
   weight: ["400", "500", "600", "700", "800", "900"],
@@ -33,63 +34,15 @@ export default function RootLayout({
 
             <div className="mx-auto flex justify-center min-h-screen w-full max-w-7xl">
 
-            
+
               <AppSidebar />
 
-              
+
               <main className="flex w-full min-w-0 max-w-3xl flex-1 flex-col  min-h-screen ">
                 {children}
               </main>
 
-         
-              <aside className="hidden xl:block w-80 xl:w-90 ">
-                <div className="sticky top-6 flex flex-col gap-6">
-
-                  {/* Search / Discover Box */}
-                  <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-                    <h3 className="font-bold text-base mb-3 text-gray-900">
-                      Discover More
-                    </h3>
-                    <input 
-                      type="text" 
-                      placeholder="Search articles, topics..." 
-                      className="w-full rounded-xl border border-gray-200 bg-gray-50 px-3.5 py-2 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
-                    />
-                  </div>
-
-                  {/* Trending / Recommended Topics */}
-                  <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-                    <h3 className="font-bold text-base mb-3 text-gray-900">
-                      Recommended Topics
-                    </h3>
-                    <div className="flex flex-wrap gap-2">
-                      {["Technology", "Design", "Programming", "Artificial Intelligence", "Startup", "Writing"].map((tag) => (
-                        <span 
-                          key={tag}
-                          className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600 hover:bg-gray-200 transition-colors cursor-pointer"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Staff Picks / Footer info */}
-                  <div className="px-2 text-xs text-gray-500 space-y-2">
-                    <div className="flex flex-wrap gap-x-3 gap-y-1">
-                      <a href="#" className="hover:underline">Help</a>
-                      <a href="#" className="hover:underline">Status</a>
-                      <a href="#" className="hover:underline">Writers</a>
-                      <a href="#" className="hover:underline">Blog</a>
-                      <a href="#" className="hover:underline">Careers</a>
-                      <a href="#" className="hover:underline">Privacy</a>
-                    </div>
-                    <p>© 2026 BlogSpace Inc.</p>
-                  </div>
-
-                </div>
-              </aside>
-
+              <RightSideBar />
             </div>
 
             <BottomMenuBar />
