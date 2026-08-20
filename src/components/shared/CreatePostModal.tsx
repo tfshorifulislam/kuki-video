@@ -5,7 +5,6 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import { CreatePostModalProps } from "@/types/modal";
 
-
 const CreatePostModal = ({
     user,
     mediaList,
@@ -24,7 +23,7 @@ const CreatePostModal = ({
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
             <div className="w-full max-w-3xl bg-white dark:bg-zinc-950 rounded-xl shadow-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden flex flex-col max-h-[92vh]">
 
-                {/* Top Bar - dev.to style */}
+                {/* Top Bar */}
                 <div className="flex items-center justify-between px-6 py-3 border-b border-zinc-100 dark:border-zinc-800">
                     <div className="flex items-center gap-3">
                         <div className="h-8 w-8 rounded-full bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center text-sm font-semibold text-zinc-700 dark:text-zinc-300 overflow-hidden">
@@ -48,6 +47,7 @@ const CreatePostModal = ({
                         <Button
                             type="button"
                             size="sm"
+                            // এখানে মিডিয়া না থাকলেও শুধু title থাকলেই publish বাটন কাজ করবে
                             disabled={!title.trim() || isUploading}
                             onClick={onPublish}
                             className="bg-[#3b49df] hover:bg-[#2f3ab2] text-white font-medium px-4"
@@ -73,16 +73,15 @@ const CreatePostModal = ({
                                 </div>
                                 <div className="text-center">
                                     <p className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                                        Add a cover image or video
+                                        Add a cover image or video (Optional)
                                     </p>
                                     <p className="text-xs text-zinc-500 mt-1">
-                                        Recommended size 1000×420
+                                        You can also post with just title and description
                                     </p>
                                 </div>
                             </button>
                         ) : (
                             <div className="relative rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800">
-                                {/* Add more button */}
                                 {mediaList.length < 5 && (
                                     <button
                                         type="button"
@@ -94,15 +93,9 @@ const CreatePostModal = ({
                                     </button>
                                 )}
 
-                                <div
-                                    className={`grid gap-1 ${mediaList.length === 1 ? "grid-cols-1" : "grid-cols-2"
-                                        }`}
-                                >
+                                <div className={`grid gap-1 ${mediaList.length === 1 ? "grid-cols-1" : "grid-cols-2"}`}>
                                     {mediaList.map((item, idx) => (
-                                        <div
-                                            key={idx}
-                                            className="relative aspect-video bg-zinc-100 dark:bg-zinc-900 group"
-                                        >
+                                        <div key={idx} className="relative aspect-video bg-zinc-100 dark:bg-zinc-900 group">
                                             <button
                                                 type="button"
                                                 onClick={() => onRemoveFile(idx)}
@@ -112,18 +105,9 @@ const CreatePostModal = ({
                                             </button>
 
                                             {item.isVideo ? (
-                                                <video
-                                                    src={item.previewUrl}
-                                                    controls
-                                                    className="w-full h-full object-cover"
-                                                />
+                                                <video src={item.previewUrl} controls className="w-full h-full object-cover" />
                                             ) : (
-                                                <Image
-                                                    fill
-                                                    src={item.previewUrl}
-                                                    alt={`preview-${idx}`}
-                                                    className="object-cover"
-                                                />
+                                                <Image fill src={item.previewUrl} alt={`preview-${idx}`} className="object-cover" />
                                             )}
                                         </div>
                                     ))}
@@ -148,7 +132,7 @@ const CreatePostModal = ({
                             value={description}
                             onChange={(e) => onDescriptionChange(e.target.value)}
                             className="w-full bg-transparent text-base sm:text-lg text-zinc-800 dark:text-zinc-200 placeholder:text-zinc-400 focus:outline-none resize-none leading-relaxed"
-                            style={{ minHeight: "180px" }} 
+                            style={{ minHeight: "180px" }}
                         />
                     </div>
                 </div>
